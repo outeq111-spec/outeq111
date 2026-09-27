@@ -1,0 +1,31 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>%%TITLE%%</title><style>
+html,body{margin:0;height:100%;background:#111;overflow:hidden;touch-action:manipulation}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+section{position:absolute;inset:0;width:1920px;height:1080px;box-sizing:border-box;display:none!important}
+section.on{display:flex!important}
+section *{margin:0;box-sizing:border-box}
+section h1,section h2,section h3{font-weight:700}
+section aside{display:none}
+[data-build-in]{transition:opacity .45s ease,transform .45s ease}
+[data-build-in].hid{opacity:0}
+[data-build-in^="rise"].hid{transform:translateY(30px)}
+[data-build-in^="pop"].hid{transform:scale(.85)}
+#bar{position:fixed;right:12px;bottom:10px;color:#9aa;font:14px sans-serif;opacity:.6;user-select:none}
+#fs{position:fixed;left:12px;bottom:8px;font:14px sans-serif;background:#333;color:#ddd;border:0;border-radius:6px;padding:6px 10px;opacity:.6}
+</style></head><body><div id="stage">
+%%SLIDES%%</div><button id="fs">전체 화면</button><div id="bar"></div><script>
+const S=[...document.querySelectorAll('#stage>section')];let i=0,step=0;
+const groups=s=>{const m={};s.querySelectorAll('[data-build-in]').forEach(e=>{const n=parseInt((e.dataset.buildIn.split(' ')[1])||'1');(m[n]=m[n]||[]).push(e)});return Object.keys(m).map(Number).sort((a,b)=>a-b).map(k=>m[k])};
+const G=S.map(groups);
+function show(){S.forEach((s,k)=>s.classList.toggle('on',k===i));G[i].forEach((g,k)=>g.forEach(e=>e.classList.toggle('hid',k>=step)));document.getElementById('bar').textContent=(i+1)+' / '+S.length}
+function next(){if(step<G[i].length)step++;else if(i<S.length-1){i++;step=0}show()}
+function prev(){if(step>0)step--;else if(i>0){i--;step=G[i].length}show()}
+function fit(){const st=document.getElementById('stage'),k=Math.min(innerWidth/1920,innerHeight/1080);st.style.transform=`scale(${k}) translate(-50%,-50%)`}
+addEventListener('resize',fit);
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' ','PageDown','Enter'].includes(e.key)){e.preventDefault();next()}else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev()}else if(e.key==='Home'){i=0;step=0;show()}else if(e.key==='f')fs()});
+function fs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+document.getElementById('fs').onclick=e=>{e.stopPropagation();fs()};
+addEventListener('click',e=>{if(e.target.id==='fs')return;(e.clientX<innerWidth*0.3?prev:next)()});
+fit();show();
+</script></body></html>
