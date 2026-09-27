@@ -2,7 +2,7 @@
 import sys, re, base64, math
 sys.path.insert(0, '/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4db87ef5a17/scratchpad/gen')
 from lib import *
-from geo import G, E
+from geo import G as SNAP, E
 
 BASE = '/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4db87ef5a17'
 FIGS = BASE + '/figs'
@@ -15,7 +15,7 @@ def old(sid):
     return h.replace("'Noto Sans KR', Arial, sans-serif", FONT)
 
 def g(name, p, edges, circ=None, onc=''):
-    return G(name, p, fig_dir=FIGS, spec=(E(edges), circ, onc))
+    return SNAP(name, p, fig_dir=FIGS, spec=(E(edges), circ, onc))
 
 def foot(p, a, b):
     ax, ay = a; bx, by = b; t = ((p[0]-ax)*(bx-ax) + (p[1]-ay)*(by-ay)) / ((bx-ax)**2 + (by-ay)**2)
