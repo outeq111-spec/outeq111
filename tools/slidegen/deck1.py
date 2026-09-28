@@ -36,6 +36,8 @@ S.append(solve('준비 학습 2 (2) · 부채꼴의 성질', '다음 원 O에서
 # 생각톡
 S.append(crops('원주각과 중심각 사이의 관계 · 생각톡', None, [(2, (230, 590, 2180, 1610))],
                ['탐구 ① [r]∠APB는 모두 35°[/r]로 같다.', '탐구 ② [b]∠APB = ½ ∠AOB[/b] (35° = ½ × 70°)']))
+from inscribed_explore import explore_slide
+S.append(explore_slide())
 
 # 정의
 p = dict(P=(185, 55), O=(185, 200), A=(55, 315), B=(310, 315))

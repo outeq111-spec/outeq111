@@ -33,6 +33,7 @@
 - `shell.html`: 단계 넘김 플레이어. `shots.sh 파일 장수 접두어`: 전 슬라이드 스크린샷 시트.
 - 필요 패키지: `pip install pillow numpy pymupdf` (PDF는 pymupdf로 렌더). Chromium: /opt/pw-browsers/chromium-1194/chrome-linux/chrome
 
+- 탐구(점을 움직여 관찰) 활동은 `inscribed_explore.py`처럼 드래그 가능한 SVG 슬라이드로 구현 (클릭 전파 차단 필수).
 - 사각형 성질이 필요한 문제 앞에는 `quadrev()` 복습 슬라이드(여러 가지 사각형 사이의 관계, assets/quad.png)를 넣는다.
 
 ## 과거 실수 (반복 금지)
