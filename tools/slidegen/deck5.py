@@ -4,6 +4,9 @@ sys.path.insert(0, '/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4
 import lib
 lib.B = '/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4db87ef5a17/ch4/m'
 from lib import *
+_poly = poly
+def poly(pts, c=BL, op=0.2, stroke=None):
+    return _poly(pts, c, op, stroke or c)
 from geo import G as SNAP, E
 exec(open('/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4db87ef5a17/ch4/spec.py').read())
 
@@ -35,7 +38,7 @@ S.append(crops('스스로 완성해 봅시다', None, [(1, (560, 360, 2200, 1680
 p, C = g('m01', dict(A=(114, 43), C=(312, 102), B=(102, 297), O=(181, 172)), 'A-C A-B O-A O-C', ((180, 168), 148), 'A B C')
 prob('m01', '표준 문제 01', '호의 길이는 중심각의 크기에 정비례')
 sol('m01', '01', [
-    ('① ∠AOC = 90°이고 호 AC : 호 BC = 3 : 5\n→ 호 BC에 대한 중심각 = 90° × 5/3 = [r]150°[/r]', [arc(C[0], C[1], p['B'], p['C'], (320, 250), R, 8), wedge(p['O'], p['C'], p['B'], 28, R)]),
+    ('① ∠AOC = 90°이고 호 AC : 호 BC = 3 : 5\n→ 호 BC에 대한 중심각 = 90° × 5/3 = [r]150°[/r]', [arc(C[0], C[1], p['B'], p['C'], (320, 250), R, 8), wedge(p['O'], p['C'], p['B'], 12, R)]),
     ('② ∠BAC는 호 BC에 대한 [b]원주각[/b]\n→ ∠BAC = ½ × 150° = 75°', [wedge(p['A'], p['B'], p['C'], 40, BL, 0.55)]),
 ], '답 · 75°')
 
@@ -43,15 +46,15 @@ p, C = g('m02', dict(P=(172, 44), D=(117, 120), C=(225, 122), A=(21, 259), B=(31
 prob('m02', '표준 문제 02 · 서술형', '원주각의 크기는 중심각의 ½, 반원에 대한 원주각은 90°')
 sol('m02', '02', [
     ('① ∠DBC는 호 DC에 대한 원주각\n→ [r]∠DBC = ½ × 42° = 21°[/r]', [wedge(p['B'], p['D'], p['C'], 60, R)]),
-    ('② AB는 지름 → [b]∠ADB = 90°[/b]\n→ ∠PDB = 90°', [right(p['D'], p['P'], p['B'], 16, BL)]),
-    ('③ [g]△PDB[/g]에서 ∠APB = 180° − 90° − 21° = 69°', [poly([p['P'], p['D'], p['B']], G, 0.2)]),
+    ('② AB는 지름 → [b]∠ADB = 90°[/b]\n→ ∠PDB = 90°', [line(p['D'], p['B'], BL, 4), right(p['D'], p['P'], p['B'], 16, BL)]),
+    ('③ [g]△PDB[/g]에서 ∠APB = 180° − 90° − 21° = 69°', [line(p['D'], p['B'], G, 4), poly([p['P'], p['D'], p['B']], G, 0.2)]),
 ], '답 · 69°')
 
 p, C = g('m03', dict(A=(26, 152), D=(233, 61), B=(149, 337), C=(247, 315)), 'A-C B-D A-B', ((167, 190), 148), 'A B C D')
 p['E'] = inter(p['A'], p['C'], p['B'], p['D'])
 prob('m03', '표준 문제 03', '원주각의 크기와 호의 길이는 정비례')
 sol('m03', '03', [
-    ('① [g]△ABE[/g]에서 ∠BEC는 외각\n→ 70° = 20° + ∠ABE → [r]∠ABD = 50°[/r]', [poly([p['A'], p['B'], p['E']], G, 0.2), wedge(p['B'], p['A'], p['D'], 40, R)]),
+    ('① [g]△ABE[/g]에서 ∠BEC는 외각\n→ 70° = 20° + ∠ABE → [r]∠ABD = 50°[/r]', [line(p['A'], p['B'], G, 4), poly([p['A'], p['B'], p['E']], G, 0.2), wedge(p['B'], p['A'], p['D'], 40, R)]),
     ('② 호 AD : 호 BC = 50° : 20°', [arc(C[0], C[1], p['A'], p['D'], (70, 70), R, 8), arc(C[0], C[1], p['B'], p['C'], (200, 340), BL, 8)]),
     ('③ 호 AD : 8 = 5 : 2 → 호 AD = 20 cm', []),
 ], '답 · 20 cm')
@@ -86,7 +89,7 @@ prob('m07', '표준 문제 07', '접선과 현이 이루는 각, 반원에 대�
 sol('m07', '07', [
     ('① 접선과 현 TB가 이루는 각\n→ [r]∠BAT = ∠BTQ = 60°[/r]', [wedge(p['T'], p['B'], p['Q'], 34, R), wedge(p['A'], p['T'], p['B'], 32, R)]),
     ('② AB는 지름 → [b]∠ATB = 90°[/b]\n→ ∠ATP = 180° − 90° − 60° = 30°', [right(p['T'], p['A'], p['B'], 16, BL), wedge(p['T'], p['P'], p['A'], 50, BL)]),
-    ('③ [g]△APT[/g]에서 ∠BAT는 외각\n60° = ∠BPT + 30° → ∠BPT = 30°', [poly([p['A'], p['P'], p['T']], G, 0.22)]),
+    ('③ [g]△APT[/g]에서 ∠BAT는 외각\n60° = ∠BPT + 30° → ∠BPT = 30°', [line(p['A'], p['T'], G, 4), poly([p['A'], p['P'], p['T']], G, 0.22)]),
 ], '답 · 30°')
 
 p, C = g('m08', dict(A=(245, 65), B=(42, 363), C=(310, 363), D=(135, 228), F=(287, 258), E=(201, 363)), 'A-B B-C C-A D-E E-F F-D', ((204, 262), 101), 'D E F')
