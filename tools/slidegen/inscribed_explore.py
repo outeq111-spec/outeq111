@@ -4,7 +4,7 @@ from lib import FONT, BG1, DARK, TEAL
 def explore_slide():
     return ('<section style="background:' + BG1 + '; color:' + DARK + '; font-family:' + FONT + '; padding:96px; display:flex; flex-direction:column">'
     '<p style="position:absolute; left:96px; top:44px; width:1700px; font-size:30px; font-weight:700; color:' + TEAL + '">생각톡 · 직접 움직여 보기</p>'
-    '<p style="position:absolute; left:96px; top:90px; width:1728px; font-size:40px; font-weight:700">점 P를 끌어 원 위에서 움직여 보자. ∠APB의 크기는 어떻게 될까?</p>'
+    '<p style="position:absolute; left:96px; top:90px; width:1728px; font-size:40px; font-weight:700">∠AOB = 70°일 때, 점 P를 움직이며 ∠APB의 크기를 관찰해 보자.</p>'
     '''<div class="ix" style="position:absolute; left:96px; top:180px; width:1000px; height:820px; background:#FFFFFF; border-radius:16px">
 <svg id="ixs" viewBox="0 0 1000 820" width="1000" height="820" style="touch-action:none; cursor:default">
  <circle cx="500" cy="420" r="330" fill="none" stroke="#1E2A3A" stroke-width="5"/>
@@ -23,12 +23,12 @@ def explore_slide():
 <div class="ix" style="position:absolute; left:1150px; top:220px; width:680px; display:flex; flex-direction:column; gap:28px">
  <p style="font-size:44px">∠APB = <b id="ixVP" style="color:#E4572E"></b></p>
  <p style="font-size:44px">∠AOB = <b id="ixVO" style="color:#1F6FB2"></b></p>
- <p style="font-size:34px; line-height:1.5; color:#4A5568">· 빨간 점 <b style="color:#E4572E">P</b>를 끌어 보세요.<br>· 점 A, B도 끌어서 호 AB를 바꿀 수 있어요.<br>· P가 호 AB(빨간 호) 위로 가면 원주각이 아니에요.</p>
+ <p style="font-size:34px; line-height:1.5; color:#4A5568">· 빨간 점 <b style="color:#E4572E">P</b>를 끌어 보세요.<br>· ∠AOB = 70°는 그대로이고, P만 움직여요.<br>· P가 호 AB(빨간 호) 위로 가면 원주각이 아니에요.</p>
  <p id="ixMsg" style="font-size:36px; font-weight:700; background:#FCE0C4; padding:18px 26px; border-radius:14px"></p>
 </div>
 <script>
 (function(){
- var cx=500,cy=420,r=330, t={A:215,B:325,P:95}, drag=null, s=document.getElementById('ixs');
+ var cx=500,cy=420,r=330, t={A:235,B:305,P:100}, drag=null, s=document.getElementById('ixs');
  function pt(a){a=a*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];}
  function ang(u,v,w){var a=Math.atan2(u[1]-v[1],u[0]-v[0]),b=Math.atan2(w[1]-v[1],w[0]-v[0]),d=Math.abs(a-b)*180/Math.PI;return d>180?360-d:d;}
  function set(id,a,b){var e=document.getElementById(id);e.setAttribute('x1',a[0]);e.setAttribute('y1',a[1]);e.setAttribute('x2',b[0]);e.setAttribute('y2',b[1]);}
@@ -56,7 +56,7 @@ def explore_slide():
   document.getElementById('ixMsg').innerHTML=bad?'P가 호 AB 위에 있어요. 호 AB 밖으로 옮겨 보세요.':'∠APB = ½ × ∠AOB = ½ × '+Math.round(cen)+'° = '+Math.round(ins)+'°';
  }
  function loc(e){var b=s.getBoundingClientRect();return [(e.clientX-b.left)*1000/b.width,(e.clientY-b.top)*820/b.height];}
- s.addEventListener('pointerdown',function(e){var q=loc(e),best=null,bd=60;['P','A','B'].forEach(function(k){var p=pt(t[k]),dd=Math.hypot(p[0]-q[0],p[1]-q[1]);if(dd<bd){bd=dd;best=k;}});
+ s.addEventListener('pointerdown',function(e){var q=loc(e),best=null,bd=60;['P'].forEach(function(k){var p=pt(t[k]),dd=Math.hypot(p[0]-q[0],p[1]-q[1]);if(dd<bd){bd=dd;best=k;}});
    if(best){drag=best;s.setPointerCapture(e.pointerId);}});
  s.addEventListener('pointermove',function(e){if(!drag)return;var q=loc(e),a=Math.atan2(q[1]-cy,q[0]-cx)*180/Math.PI;a=(a+360)%360;
    if(drag!=='P'){var o=t[drag==='A'?'B':'A'],g=(a-o+360)%360;if(g<20||g>340)return;}t[drag]=a;draw();});
