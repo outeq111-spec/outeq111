@@ -31,8 +31,8 @@ section aside{display:none}
  <circle cx="500" cy="420" r="8" fill="#1E2A3A"/><text x="515" y="410" font-size="40" font-family="Times New Roman" fill="#1E2A3A">O</text>
  <text id="ixTO" font-size="36" font-weight="700" font-family="Arial" fill="#1F6FB2" text-anchor="middle"></text>
  <text id="ixTP" font-size="36" font-weight="700" font-family="Arial" fill="#E4572E" text-anchor="middle"></text>
- <g id="ixA"><circle r="30" fill="#1F6FB2" fill-opacity="0.15"/><circle r="10" fill="#1E2A3A"/><text font-size="44" font-family="Times New Roman" fill="#1E2A3A">A</text></g>
- <g id="ixB"><circle r="30" fill="#1F6FB2" fill-opacity="0.15"/><circle r="10" fill="#1E2A3A"/><text font-size="44" font-family="Times New Roman" fill="#1E2A3A">B</text></g>
+ <g id="ixA"><circle r="30" fill="#1F6FB2" fill-opacity="0.15"/><circle r="10" fill="#1E2A3A"/><text font-size="44" font-family="Times New Roman" fill="#1E2A3A">B</text></g>
+ <g id="ixB"><circle r="30" fill="#1F6FB2" fill-opacity="0.15"/><circle r="10" fill="#1E2A3A"/><text font-size="44" font-family="Times New Roman" fill="#1E2A3A">A</text></g>
  <g id="ixP" style="cursor:grab"><circle r="34" fill="#E4572E" fill-opacity="0.25"/><circle r="12" fill="#E4572E"/><text font-size="44" font-family="Times New Roman" fill="#E4572E">P</text></g>
 </svg></div>
 <div class="ix" style="position:absolute; left:1150px; top:220px; width:680px; display:flex; flex-direction:column; gap:28px">
@@ -43,7 +43,7 @@ section aside{display:none}
 </div>
 <script>
 (function(){
- var cx=500,cy=420,r=330, t={A:235,B:305,P:100}, drag=null, s=document.getElementById('ixs');
+ var cx=500,cy=420,r=330, t={A:55,B:125,P:255}, drag=null, s=document.getElementById('ixs');
  function pt(a){a=a*Math.PI/180;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];}
  function ang(u,v,w){var a=Math.atan2(u[1]-v[1],u[0]-v[0]),b=Math.atan2(w[1]-v[1],w[0]-v[0]),d=Math.abs(a-b)*180/Math.PI;return d>180?360-d:d;}
  function set(id,a,b){var e=document.getElementById(id);e.setAttribute('x1',a[0]);e.setAttribute('y1',a[1]);e.setAttribute('x2',b[0]);e.setAttribute('y2',b[1]);}
