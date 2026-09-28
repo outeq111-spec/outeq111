@@ -23,6 +23,13 @@ def lb(a, b, s, c, dx=0, dy=0, size=24):
     return text(((a[0]+b[0])/2+dx, (a[1]+b[1])/2+dy), s, c, size, 'middle')
 
 S = []
+def quadrev(title):
+    import base64
+    uri = 'data:image/png;base64,' + base64.b64encode(open('/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4db87ef5a17/ch4/quad.png','rb').read()).decode()
+    S.append('<section style="background:#F7F6F1; color:#1E2A3A; font-family:' + FONT + '; padding:96px; display:flex; flex-direction:column">'
+             '<p style="position:absolute; left:96px; top:44px; width:1700px; font-size:30px; font-weight:700; color:#1F7A8C">복습 · 여러 가지 사각형 사이의 관계</p>'
+             f'<p style="position:absolute; left:96px; top:90px; width:1728px; font-size:40px; font-weight:700">{title}</p>'
+             f'<img src="{uri}" style="position:absolute; left:156px; top:190px; width:1608px; height:796px; object-fit:contain; background:#FFFFFF; border-radius:14px"></section>')
 def prob(k, label, hint, accent=TEAL):
     pg, box, _ = P[k]
     if k.startswith('m'): box = (640,) + box[1:]
@@ -68,6 +75,7 @@ sol('m04', '04', [
     ('③ ∠EOD는 호 ED에 대한 중심각\n→ ∠EOD = 2 × 44° = 88°', [wedge(p['O'], p['E'], p['D'], 30, G, 0.55)]),
 ], '답 · 88°')
 
+quadrev('어떤 사각형이 원에 내접할까? 대각의 합이 180°인지 떠올리며 보자.')
 prob('m05', '표준 문제 05 · 추론', '한 쌍의 대각의 합이 180°인 사각형은 원에 내접')
 S.append(textslide('05 풀이', '항상 원에 내접하는 사각형을 모두 고르시오.', [
     '(ㄱ) 등변사다리꼴 · 아랫변의 두 밑각이 같고, 윗각 + 아랫각 = 180° → 대각의 합 180° [g]⭕[/g]',
@@ -117,6 +125,7 @@ p, C = g('m10', dict(A=(228, 54), B=(42, 264), C=(340, 264), H=(340, 152), O=(19
 O = C[0]
 p['E'] = foot(p['A'], p['B'], p['C']); p['D'] = foot(O, p['B'], p['C']); p['F'] = foot(p['C'], p['A'], p['B'])
 p['G'] = inter(p['A'], p['E'], p['C'], p['F'])
+quadrev('두 쌍의 대변이 각각 평행 → 평행사변형')
 prob('m10', '도전 문제 10 · 서술형', 'BH는 지름 → 지름에 대한 원주각은 90°', accent='#B5651D')
 sol('m10', '10 (1)', [
     ('① BH는 지름 → [r]∠BCH = 90°[/r] → CH ⊥ BC\nAE ⊥ BC이므로 [r]AG ∥ CH[/r]', [right(p['C'], p['B'], p['H'], 14, R), line(p['C'], p['H'], R, 4), line(p['A'], p['G'], R, 4)]),

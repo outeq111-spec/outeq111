@@ -33,6 +33,8 @@
 - `shell.html`: 단계 넘김 플레이어. `shots.sh 파일 장수 접두어`: 전 슬라이드 스크린샷 시트.
 - 필요 패키지: `pip install pillow numpy pymupdf` (PDF는 pymupdf로 렌더). Chromium: /opt/pw-browsers/chromium-1194/chrome-linux/chrome
 
+- 사각형 성질이 필요한 문제 앞에는 `quadrev()` 복습 슬라이드(여러 가지 사각형 사이의 관계, assets/quad.png)를 넣는다.
+
 ## 과거 실수 (반복 금지)
 - 초록색 상수 `G`를 다른 import 이름과 겹치게 해서 초록 선이 모두 사라졌음 → snap 함수는 `SNAP`으로 import.
 - 선 하나에만 연결된 점은 그 선을 따라 미끄러진다 → 교점은 `inter`, 중점은 `mid`, 수선의 발은 `foot`로 계산해서 고정.
