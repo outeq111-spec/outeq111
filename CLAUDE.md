@@ -42,6 +42,8 @@
 - 필요 패키지: `pip install pillow numpy pymupdf` (PDF는 pymupdf로 렌더). Chromium: /opt/pw-browsers/chromium-1194/chrome-linux/chrome
 
 - 탐구(점을 움직여 관찰) 활동은 `inscribed_explore.py`처럼 드래그 가능한 SVG 슬라이드로 구현 (클릭 전파 차단 필수).
+  - 순서: 생각톡 교과서 슬라이드(설명 pill 없이) → 드래그 탐구 → 같은 교과서 슬라이드 + pill('생각톡 정리'). 원주각 1차시(`inscribed_explore.py`), 2차시(`arc_explore.py`, 시계 눈금에 맞춰 A·B·C·D·P 이동) 적용.
+  - 교과서 페이지 이미지가 없는 새 세션에서는 기존 HTML의 `<section>`을 파이썬으로 잘라 붙여 수정 가능 (2차시가 그렇게 수정됨). 드래그 SVG에는 `user-select:none` + pointerdown `preventDefault`.
 - 사각형 성질이 필요한 문제 앞에는 `quadrev()` 복습 슬라이드(여러 가지 사각형 사이의 관계, assets/quad.png)를 넣는다.
 
 ## 과거 실수 (반복 금지)
