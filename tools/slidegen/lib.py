@@ -164,6 +164,7 @@ def textslide(label, title, steps, notes='', bg=BG2, accent=TEAL, answer=None):
                 f'background:#FCE0C4; padding:18px 30px; border-radius:16px">{rich(answer)}</p>')
     return _sec(bg, out, notes)
 
-SHELL = open('/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4db87ef5a17/scratchpad/gen/shell.html').read()
+import os as _os
+SHELL = open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'shell.html')).read()
 def write(path, title, sections):
     open(path, 'w').write(SHELL.replace('%%TITLE%%', H.escape(title)).replace('%%SLIDES%%', '\n'.join(sections)))
