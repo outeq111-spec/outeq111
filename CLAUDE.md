@@ -38,7 +38,7 @@
 - `lib.py`: 슬라이드 조립. `cover`, `crops`(교과서 영역 그대로 + 하단 설명 pill), `solve`(왼쪽 그림 + SVG 오버레이, 오른쪽 단계 글, 답 상자), `textslide`, `write`. SVG 도구: `line, poly, dot, text, wedge(각), right(직각), arc(호), circle, inter(교점)`. 텍스트 강조 `[r]..[/r] [b] [g] [o]`.
   - `lib.B`를 새 교재 폴더로 바꿔서 쓴다 (`h{쪽}.png` 300dpi 페이지, `fg/{이름}.png` 잘린 그림).
 - `geo.py` + `refine.py`: 대략 읽은 점 좌표를 그림의 실제 잉크 선/원에 맞춘다. `SNAP(이름, 점dict, fig_dir=..., spec=(E('A-B B-C'), ((cx,cy), r) 또는 None, '원 위 점들'))`.
-- `shell.html`: 단계 넘김 플레이어. `shots.sh 파일 장수 접두어`: 전 슬라이드 스크린샷 시트.
+- `shell.html`: 단계 넘김 플레이어. 포인터·확대·가독성 기능(`player_upgrade.py`)이 들어 있음: P 키/[포인터] 버튼으로 큰 빨간 화살표+노란 원 ↔ 레이저 점 ↔ 보통 마우스, 마우스 휠·Z 키로 확대(Esc 해제), 방금 나온 풀이 단계 노란 형광, 교과서 그림 대비↑. 플레이어를 고치면 `python3 player_upgrade.py`로 모든 덱에 다시 적용. `shots.sh 파일 장수 접두어`: 전 슬라이드 스크린샷 시트.
 - 필요 패키지: `pip install pillow numpy pymupdf` (PDF는 pymupdf로 렌더). Chromium: /opt/pw-browsers/chromium-1194/chrome-linux/chrome
 
 - 탐구(점을 움직여 관찰) 활동은 `inscribed_explore.py`처럼 드래그 가능한 SVG 슬라이드로 구현 (클릭 전파 차단 필수).

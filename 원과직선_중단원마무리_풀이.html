@@ -13,6 +13,25 @@ section aside{display:none}
 [data-build-in^="pop"].hid{transform:scale(.85)}
 #bar{position:fixed;right:12px;bottom:10px;color:#9aa;font:14px sans-serif;opacity:.6;user-select:none}
 #fs{position:fixed;left:12px;bottom:8px;font:14px sans-serif;background:#333;color:#ddd;border:0;border-radius:6px;padding:6px 10px;opacity:.6}
+</style><style id="ptrkit">
+#stage{overflow:hidden}
+#stage>section{transition:transform .25s ease}
+body.pm-big, body.pm-big *{cursor:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M6 4 L6 52 L18 41 L27 60 L36 56 L27 37 L44 37 Z' fill='%23E4572E' stroke='white' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E") 6 4, auto !important}
+body.pm-laser, body.pm-laser *{cursor:none !important}
+#halo{position:fixed; left:0; top:0; width:120px; height:120px; margin:-60px 0 0 -60px; border-radius:50%; pointer-events:none; z-index:50;
+ background:radial-gradient(circle, rgba(255,214,0,.42) 0%, rgba(255,214,0,.28) 55%, rgba(255,214,0,0) 72%); display:none}
+body.pm-big #halo.on{display:block}
+body.pm-laser #halo.on{display:block; width:34px; height:34px; margin:-17px 0 0 -17px; background:radial-gradient(circle, #FF2A2A 0%, #FF2A2A 38%, rgba(255,42,42,.45) 55%, rgba(255,42,42,0) 75%)}
+#ptr{position:fixed; left:110px; bottom:8px; font:14px sans-serif; background:#333; color:#ddd; border:0; border-radius:6px; padding:6px 10px; opacity:.6; z-index:60}
+#fs{z-index:60}
+#toast{position:fixed; left:50%; top:24px; transform:translateX(-50%); background:rgba(20,20,20,.85); color:#fff; font:600 22px 'Noto Sans KR',sans-serif;
+ padding:10px 22px; border-radius:10px; z-index:70; opacity:0; transition:opacity .3s; pointer-events:none}
+#toast.show{opacity:1}
+/* 가독성 */
+section img{filter:contrast(1.12)}
+section p.cur{background:#FFF1A8 !important; box-shadow:0 0 0 12px #FFF1A8; border-radius:6px}
+[style*="color:#4A5568"]{color:#2D3748 !important}
+[style*="color:#6B7280"]{color:#4B5563 !important}
 </style></head><body><div id="stage">
 <section id="cover" data-transition="fade" style="background:#1E2A3A; color:#F7F6F1; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:128px; display:flex; flex-direction:column; justify-content:center; gap:32px">
 <p style="font-size:32px; font-weight:700; color:#7CC6D2">Ⅵ-1 원과 직선 · 교과서 187~189쪽</p>
@@ -148,4 +167,36 @@ function fs(){document.fullscreenElement?document.exitFullscreen():document.docu
 document.getElementById('fs').onclick=e=>{e.stopPropagation();fs()};
 addEventListener('click',e=>{if(e.target.id==='fs')return;(e.clientX<innerWidth*0.3?prev:next)()});
 fit();show();
+</script><script id="ptrkitjs">
+(function(){
+ var MODES=['big','laser','plain'], NAMES={big:'큰 화살표 + 노란 원',laser:'레이저 점',plain:'보통 마우스'}, m=0;
+ try{m=Math.max(0,MODES.indexOf(localStorage.getItem('pm')||'big'))}catch(e){}
+ var halo=document.createElement('div');halo.id='halo';document.body.appendChild(halo);
+ var toast=document.createElement('div');toast.id='toast';document.body.appendChild(toast);
+ var btn=document.createElement('button');btn.id='ptr';btn.textContent='포인터';document.body.appendChild(btn);
+ var tt;function say(s){toast.textContent=s;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show')},1400);}
+ function setMode(k,quiet){m=k;MODES.forEach(function(x){document.body.classList.toggle('pm-'+x,x===MODES[m])});
+   try{localStorage.setItem('pm',MODES[m])}catch(e){} if(!quiet)say('포인터: '+NAMES[MODES[m]]+'  (P 키로 바꾸기)');}
+ setMode(m,true);
+ btn.onclick=function(e){e.stopPropagation();setMode((m+1)%3);};
+ var mx=-999,my=-999;
+ addEventListener('pointermove',function(e){if(e.pointerType==='touch'){halo.classList.remove('on');return;}
+   mx=e.clientX;my=e.clientY;halo.style.transform='translate('+mx+'px,'+my+'px)';halo.classList.add('on');});
+ document.addEventListener('mouseleave',function(){halo.classList.remove('on')});
+ // 확대
+ var z=1,cur=null,st=document.getElementById('stage');
+ function slideXY(){var r=st.getBoundingClientRect();return [(mx-r.left)/r.width*1920,(my-r.top)/r.height*1080];}
+ function apply(){var s=S[i];if(cur&&cur!==s){cur.style.transform='';}cur=s;
+   if(z<=1.001){z=1;s.style.transform='';return;}s.style.transform='scale('+z+')';}
+ function zoomTo(nz){var s=S[i];if(z<=1.001&&nz>1){var p=slideXY();s.style.transformOrigin=p[0]+'px '+p[1]+'px';}z=Math.min(4,Math.max(1,nz));apply();}
+ addEventListener('wheel',function(e){if(e.ctrlKey)return;e.preventDefault();zoomTo(e.deltaY<0?z*1.25:z/1.25);},{passive:false});
+ addEventListener('keydown',function(e){if(/INPUT|TEXTAREA/.test(e.target.tagName))return;var k=e.key.toLowerCase();
+   if(k==='p'){setMode((m+1)%3);}else if(k==='z'){zoomTo(z>1?1:2);}else if(e.key==='Escape'&&z>1){zoomTo(1);}},true);
+ // 방금 나온 단계 강조 + 슬라이드 바뀌면 확대 해제
+ var show0=show;
+ show=function(){show0();if(cur&&cur!==S[i]){cur.style.transform='';z=1;}
+   document.querySelectorAll('section p.cur').forEach(function(e){e.classList.remove('cur')});
+   var g=G[i][step-1];if(g&&step>0)g.forEach(function(e){if(e.tagName==='P'&&!/background/.test(e.getAttribute('style')||''))e.classList.add('cur')});};
+ show();
+})();
 </script></body></html>

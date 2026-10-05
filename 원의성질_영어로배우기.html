@@ -13,6 +13,25 @@ section aside{display:none}
 [data-build-in^="pop"].hid{transform:scale(.85)}
 #bar{position:fixed;right:12px;bottom:10px;color:#9aa;font:14px sans-serif;opacity:.6;user-select:none}
 #fs{position:fixed;left:12px;bottom:8px;font:14px sans-serif;background:#333;color:#ddd;border:0;border-radius:6px;padding:6px 10px;opacity:.6}
+</style><style id="ptrkit">
+#stage{overflow:hidden}
+#stage>section{transition:transform .25s ease}
+body.pm-big, body.pm-big *{cursor:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M6 4 L6 52 L18 41 L27 60 L36 56 L27 37 L44 37 Z' fill='%23E4572E' stroke='white' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E") 6 4, auto !important}
+body.pm-laser, body.pm-laser *{cursor:none !important}
+#halo{position:fixed; left:0; top:0; width:120px; height:120px; margin:-60px 0 0 -60px; border-radius:50%; pointer-events:none; z-index:50;
+ background:radial-gradient(circle, rgba(255,214,0,.42) 0%, rgba(255,214,0,.28) 55%, rgba(255,214,0,0) 72%); display:none}
+body.pm-big #halo.on{display:block}
+body.pm-laser #halo.on{display:block; width:34px; height:34px; margin:-17px 0 0 -17px; background:radial-gradient(circle, #FF2A2A 0%, #FF2A2A 38%, rgba(255,42,42,.45) 55%, rgba(255,42,42,0) 75%)}
+#ptr{position:fixed; left:110px; bottom:8px; font:14px sans-serif; background:#333; color:#ddd; border:0; border-radius:6px; padding:6px 10px; opacity:.6; z-index:60}
+#fs{z-index:60}
+#toast{position:fixed; left:50%; top:24px; transform:translateX(-50%); background:rgba(20,20,20,.85); color:#fff; font:600 22px 'Noto Sans KR',sans-serif;
+ padding:10px 22px; border-radius:10px; z-index:70; opacity:0; transition:opacity .3s; pointer-events:none}
+#toast.show{opacity:1}
+/* 가독성 */
+section img{filter:contrast(1.12)}
+section p.cur{background:#FFF1A8 !important; box-shadow:0 0 0 12px #FFF1A8; border-radius:6px}
+[style*="color:#4A5568"]{color:#2D3748 !important}
+[style*="color:#6B7280"]{color:#4B5563 !important}
 </style></head><body><div id="stage">
 <section style="background:#1E2A3A; color:#F7F6F1; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:128px; display:flex; flex-direction:column"><div style="display:flex; flex-direction:column; justify-content:center; gap:32px; height:100%"><p style="font-size:34px; font-weight:700; color:#7CC6D2">Ⅵ. 원의 성질 · 영어로 배우기</p><h1 style="font-size:120px; font-weight:900; line-height:1.1; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif">Properties of Circles</h1><p style="font-size:40px; color:#BFD8D5">원의 성질에서 쓰는 용어와 개념을 영어로 말해 보자</p></div></section>
 <section style="background:#EEF4F4; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">Parts of a Circle ①</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">원의 각 부분을 영어로 (1)</p><svg style="position:absolute; left:96px; top:190px; width:820px; height:700px; background:#FFF; border-radius:18px" viewBox="0 0 820 700"><circle cx="410" cy="350" r="270" fill="none" fill-opacity="1" stroke="#1E2A3A" stroke-width="4"/><g data-build-in="fade 1"><circle cx="410" cy="350" r="270" fill="none" fill-opacity="1" stroke="#E4572E" stroke-width="10"/><text x="264.5" y="76.3" font-size="34" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" fill="#E4572E" text-anchor="middle" dominant-baseline="middle" stroke="#FFF" stroke-width="7" paint-order="stroke">circumference</text></g><g data-build-in="fade 2"><circle cx="410" cy="350" r="7" fill="#1E2A3A"/><text x="402" y="316" font-size="40" font-family="Times New Roman,serif" font-style="italic" fill="#1E2A3A" text-anchor="middle" dominant-baseline="middle" stroke="#FFF" stroke-width="6" paint-order="stroke">O</text></g><g data-build-in="fade 3"><line x1="410" y1="350" x2="631.2" y2="195.1" stroke="#1F6FB2" stroke-width="7" stroke-linecap="round"/><circle cx="631.2" cy="195.1" r="7" fill="#1E2A3A"/><text x="521.6600000000001" y="234.805" font-size="34" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" fill="#1F6FB2" text-anchor="middle" dominant-baseline="middle" stroke="#FFF" stroke-width="7" paint-order="stroke">radius</text></g><g data-build-in="fade 4"><line x1="156.3" y1="257.7" x2="663.7" y2="442.3" stroke="#2E9E5B" stroke-width="7" stroke-linecap="round"/><circle cx="156.3" cy="257.7" r="7" fill="#1E2A3A"/><circle cx="663.7" cy="442.3" r="7" fill="#1E2A3A"/><text x="308.52" y="353.08" font-size="34" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" fill="#2E9E5B" text-anchor="middle" dominant-baseline="middle" stroke="#FFF" stroke-width="7" paint-order="stroke">diameter</text></g></svg><div style="position:absolute; left:960px; top:190px; width:864px; display:flex; flex-direction:column; gap:16px"><div data-build-in="rise 1" style="background:#FFF; border-radius:14px; padding:12px 26px; border-left:12px solid #E4572E"><p style="font-size:28px; color:#4A5568">원 / 원주 (원의 둘레)</p><p style="font-size:46px; font-weight:700; color:#E4572E; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif; line-height:1.2">circle / circumference<span style="font-size:26px; font-weight:400; color:#6B7280; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; margin-left:18px">서클 / 서컴퍼런스</span></p></div><div data-build-in="rise 2" style="background:#FFF; border-radius:14px; padding:12px 26px; border-left:12px solid #1E2A3A"><p style="font-size:28px; color:#4A5568">원의 중심</p><p style="font-size:46px; font-weight:700; color:#1E2A3A; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif; line-height:1.2">center<span style="font-size:26px; font-weight:400; color:#6B7280; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; margin-left:18px">센터</span></p></div><div data-build-in="rise 3" style="background:#FFF; border-radius:14px; padding:12px 26px; border-left:12px solid #1F6FB2"><p style="font-size:28px; color:#4A5568">반지름 (복수: radii)</p><p style="font-size:46px; font-weight:700; color:#1F6FB2; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif; line-height:1.2">radius<span style="font-size:26px; font-weight:400; color:#6B7280; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; margin-left:18px">레이디어스</span></p></div><div data-build-in="rise 4" style="background:#FFF; border-radius:14px; padding:12px 26px; border-left:12px solid #2E9E5B"><p style="font-size:28px; color:#4A5568">지름</p><p style="font-size:46px; font-weight:700; color:#2E9E5B; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif; line-height:1.2">diameter<span style="font-size:26px; font-weight:400; color:#6B7280; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; margin-left:18px">다이애미터</span></p></div></div><div data-build-in="rise 5" style="position:absolute; left:96px; top:900px; width:1728px; background:#FCE0C4; border-radius:16px; padding:16px 30px"><p style="font-size:38px; font-weight:700; font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif; line-height:1.3">The <b style="color:#2E9E5B">diameter</b> of a circle is twice its <b style="color:#1F6FB2">radius</b>.</p><p style="font-size:28px; color:#4A5568; margin-top:4px">원의 지름은 반지름의 2배이다.</p></div><aside>발음은 한글로 적은 대략값. radius의 복수형은 radii(레이디아이).</aside></section>
@@ -41,4 +60,36 @@ function fs(){document.fullscreenElement?document.exitFullscreen():document.docu
 document.getElementById('fs').onclick=e=>{e.stopPropagation();fs()};
 addEventListener('click',e=>{if(e.target.id==='fs')return;(e.clientX<innerWidth*0.3?prev:next)()});
 fit();show();
+</script><script id="ptrkitjs">
+(function(){
+ var MODES=['big','laser','plain'], NAMES={big:'큰 화살표 + 노란 원',laser:'레이저 점',plain:'보통 마우스'}, m=0;
+ try{m=Math.max(0,MODES.indexOf(localStorage.getItem('pm')||'big'))}catch(e){}
+ var halo=document.createElement('div');halo.id='halo';document.body.appendChild(halo);
+ var toast=document.createElement('div');toast.id='toast';document.body.appendChild(toast);
+ var btn=document.createElement('button');btn.id='ptr';btn.textContent='포인터';document.body.appendChild(btn);
+ var tt;function say(s){toast.textContent=s;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show')},1400);}
+ function setMode(k,quiet){m=k;MODES.forEach(function(x){document.body.classList.toggle('pm-'+x,x===MODES[m])});
+   try{localStorage.setItem('pm',MODES[m])}catch(e){} if(!quiet)say('포인터: '+NAMES[MODES[m]]+'  (P 키로 바꾸기)');}
+ setMode(m,true);
+ btn.onclick=function(e){e.stopPropagation();setMode((m+1)%3);};
+ var mx=-999,my=-999;
+ addEventListener('pointermove',function(e){if(e.pointerType==='touch'){halo.classList.remove('on');return;}
+   mx=e.clientX;my=e.clientY;halo.style.transform='translate('+mx+'px,'+my+'px)';halo.classList.add('on');});
+ document.addEventListener('mouseleave',function(){halo.classList.remove('on')});
+ // 확대
+ var z=1,cur=null,st=document.getElementById('stage');
+ function slideXY(){var r=st.getBoundingClientRect();return [(mx-r.left)/r.width*1920,(my-r.top)/r.height*1080];}
+ function apply(){var s=S[i];if(cur&&cur!==s){cur.style.transform='';}cur=s;
+   if(z<=1.001){z=1;s.style.transform='';return;}s.style.transform='scale('+z+')';}
+ function zoomTo(nz){var s=S[i];if(z<=1.001&&nz>1){var p=slideXY();s.style.transformOrigin=p[0]+'px '+p[1]+'px';}z=Math.min(4,Math.max(1,nz));apply();}
+ addEventListener('wheel',function(e){if(e.ctrlKey)return;e.preventDefault();zoomTo(e.deltaY<0?z*1.25:z/1.25);},{passive:false});
+ addEventListener('keydown',function(e){if(/INPUT|TEXTAREA/.test(e.target.tagName))return;var k=e.key.toLowerCase();
+   if(k==='p'){setMode((m+1)%3);}else if(k==='z'){zoomTo(z>1?1:2);}else if(e.key==='Escape'&&z>1){zoomTo(1);}},true);
+ // 방금 나온 단계 강조 + 슬라이드 바뀌면 확대 해제
+ var show0=show;
+ show=function(){show0();if(cur&&cur!==S[i]){cur.style.transform='';z=1;}
+   document.querySelectorAll('section p.cur').forEach(function(e){e.classList.remove('cur')});
+   var g=G[i][step-1];if(g&&step>0)g.forEach(function(e){if(e.tagName==='P'&&!/background/.test(e.getAttribute('style')||''))e.classList.add('cur')});};
+ show();
+})();
 </script></body></html>
