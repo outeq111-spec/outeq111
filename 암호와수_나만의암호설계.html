@@ -1,0 +1,194 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>암호와 수 - 나만의 암호 설계</title><style>
+html,body{margin:0;height:100%;background:#111;overflow:hidden;touch-action:manipulation}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0}
+section{position:absolute;inset:0;width:1920px;height:1080px;box-sizing:border-box;display:none!important}
+section.on{display:flex!important}
+section *{margin:0;box-sizing:border-box}
+section h1,section h2,section h3{font-weight:700}
+section aside{display:none}
+[data-build-in]{transition:opacity .45s ease,transform .45s ease}
+[data-build-in].hid{opacity:0}
+[data-build-in^="rise"].hid{transform:translateY(30px)}
+[data-build-in^="pop"].hid{transform:scale(.85)}
+#bar{position:fixed;right:12px;bottom:10px;color:#9aa;font:14px sans-serif;opacity:.6;user-select:none}
+#fs{position:fixed;left:12px;bottom:8px;font:14px sans-serif;background:#333;color:#ddd;border:0;border-radius:6px;padding:6px 10px;opacity:.6}
+</style><style id="ptrkit">
+#stage{overflow:hidden}
+#stage>section{transition:transform .25s ease}
+body.pm-big, body.pm-big *{cursor:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M6 4 L6 52 L18 41 L27 60 L36 56 L27 37 L44 37 Z' fill='%23E4572E' stroke='white' stroke-width='4' stroke-linejoin='round'/%3E%3C/svg%3E") 6 4, auto !important}
+body.pm-laser, body.pm-laser *{cursor:none !important}
+#halo{position:fixed; left:0; top:0; width:120px; height:120px; margin:-60px 0 0 -60px; border-radius:50%; pointer-events:none; z-index:50;
+ background:radial-gradient(circle, rgba(255,214,0,.42) 0%, rgba(255,214,0,.28) 55%, rgba(255,214,0,0) 72%); display:none}
+body.pm-big #halo.on{display:block}
+body.pm-laser #halo.on{display:block; width:34px; height:34px; margin:-17px 0 0 -17px; background:radial-gradient(circle, #FF2A2A 0%, #FF2A2A 38%, rgba(255,42,42,.45) 55%, rgba(255,42,42,0) 75%)}
+#ptr{position:fixed; left:110px; bottom:8px; font:14px sans-serif; background:#333; color:#ddd; border:0; border-radius:6px; padding:6px 10px; opacity:.6; z-index:60}
+#fs{z-index:60}
+#toast{position:fixed; left:50%; top:24px; transform:translateX(-50%); background:rgba(20,20,20,.85); color:#fff; font:600 22px 'Noto Sans KR',sans-serif;
+ padding:10px 22px; border-radius:10px; z-index:70; opacity:0; transition:opacity .3s; pointer-events:none}
+#toast.show{opacity:1}
+/* 가독성 */
+section img{filter:contrast(1.12)}
+section p.cur{background:#FFF1A8 !important; box-shadow:0 0 0 12px #FFF1A8; border-radius:6px}
+[style*="color:#4A5568"]{color:#2D3748 !important}
+[style*="color:#6B7280"]{color:#4B5563 !important}
+</style></head><body><div id="stage">
+<section style="background:#1E2A3A; color:#F7F6F1; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:128px; display:flex; flex-direction:column"><div style="display:flex; flex-direction:column; justify-content:center; gap:32px; height:100%"><p style="font-size:34px; font-weight:700; color:#7CC6D2">암호와 수 · 10월 6일</p><h1 style="font-size:116px; font-weight:900; line-height:1.15">나만의 암호로<br>AI와 비밀 대화하기</h1><p style="font-size:38px; color:#BFD8D5">내가 만든 암호 규칙, AI에게 정확하게 전할 수 있을까?</p></div></section>
+<section style="background:#EEF4F4; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">지난 수업 돌아보기</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">암호 속에는 언제나 수학 규칙이 있었다</p><div data-build-in="rise 1" style="position:absolute; left:96px; top:210px; width:320px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; text-align:center; border-top:10px solid #8E44AD; height:280px"><p style="font-size:28px; color:#4A5568">8월 25일</p><p style="font-size:44px; font-weight:900">스키테일</p><p style="margin-top:14px; font-size:32px; font-weight:700; color:#8E44AD">배수</p></div><div data-build-in="rise 2" style="position:absolute; left:448px; top:210px; width:320px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; text-align:center; border-top:10px solid #1F6FB2; height:280px"><p style="font-size:28px; color:#4A5568">9월 1일</p><p style="font-size:44px; font-weight:900">시저 암호</p><p style="margin-top:14px; font-size:32px; font-weight:700; color:#1F6FB2">정수의 덧셈·뺄셈</p></div><div data-build-in="rise 3" style="position:absolute; left:800px; top:210px; width:320px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; text-align:center; border-top:10px solid #2E9E5B; height:280px"><p style="font-size:28px; color:#4A5568">9월 8일</p><p style="font-size:44px; font-weight:900">모스 부호</p><p style="margin-top:14px; font-size:32px; font-weight:700; color:#2E9E5B">이진법</p></div><div data-build-in="rise 4" style="position:absolute; left:1152px; top:210px; width:320px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; text-align:center; border-top:10px solid #D9822B; height:280px"><p style="font-size:28px; color:#4A5568">9월 15일</p><p style="font-size:44px; font-weight:900">바코드·QR</p><p style="margin-top:14px; font-size:32px; font-weight:700; color:#D9822B">가중치 합</p></div><div data-build-in="rise 5" style="position:absolute; left:1504px; top:210px; width:320px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; text-align:center; border-top:10px solid #E4572E; height:280px"><p style="font-size:28px; color:#4A5568">9월 29일</p><p style="font-size:44px; font-weight:900">RSA 암호</p><p style="margin-top:14px; font-size:32px; font-weight:700; color:#E4572E">소수·소인수분해</p></div><div data-build-in="rise 6" style="position:absolute; left:96px; top:560px; width:1728px; background:#FCE0C4; border-radius:16px; padding:24px 32px; font-size:42px; line-height:1.45; ">지금까지는 <b style="color:#1F6FB2">이미 있는 암호</b>의 규칙을 배웠다면,<br>오늘은 <b style="color:#E4572E">암호의 종류와 규칙을 내가 직접</b> 정하는 <b style="color:#E4572E">암호 설계자</b>가 됩니다!</div><div data-build-in="rise 7" style="position:absolute; left:96px; top:800px; width:1728px; background:#DDEFE3; border-radius:16px; padding:24px 32px; font-size:36px; line-height:1.45; "><b style="color:#2E9E5B">오늘의 흐름</b>  ① 나만의 암호 설계  →  ② 비밀 메시지 암호화  →  ③ AI와 암호문 주고받기(3라운드)  →  ④ 성찰</div><aside>각 카드를 누를 때마다 '그 암호에 숨은 수학은?'을 먼저 물어본다.</aside></section>
+<section style="background:#F7F6F1; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">탐구 질문</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">모든 암호에는 3가지가 있다</p><div style="position:absolute; left:96px; top:200px; width:1728px; background:#DDEFE3; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; "><b style="color:#2E9E5B">탐구 질문</b>  나만의 수학적 규칙으로 암호를 만들어 비밀은 지키면서, 받는 사람에게는 <b style="color:#E4572E">정확하게</b> 전하려면 무엇이 필요할까?</div><div data-build-in="rise 1" style="position:absolute; left:96px; top:380px; width:560px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; text-align:center; border-top:10px solid #1F6FB2"><p style="font-size:52px; font-weight:900; color:#1F6FB2">규칙</p><p style="font-size:32px; color:#4A5568">어떻게 바꾸는가</p></div><div data-build-in="rise 2" style="position:absolute; left:680px; top:380px; width:560px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; text-align:center; border-top:10px solid #E4572E"><p style="font-size:52px; font-weight:900; color:#E4572E">열쇠</p><p style="font-size:32px; color:#4A5568">받는 사람만 아는 비밀</p></div><div data-build-in="rise 3" style="position:absolute; left:1264px; top:380px; width:560px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; text-align:center; border-top:10px solid #2E9E5B"><p style="font-size:52px; font-weight:900; color:#2E9E5B">되돌리기</p><p style="font-size:32px; color:#4A5568">거꾸로 푸는 방법</p></div><table id="t3" data-build-in="rise 4" style="position:absolute; left:96px; top:600px; width:1728px; border-collapse:collapse; font-size:34px; text-align:center; background:#FFF"><tr style="background:#DCEBEE"><th style="padding:12px">암호</th><th style="color:#1F6FB2">규칙</th><th style="color:#E4572E">열쇠</th><th style="color:#2E9E5B">되돌리기</th></tr><tr><td style="font-weight:700">스키테일</td><td>막대에 감아 가로로 쓰기</td><td>막대의 굵기 (몇 칸)</td><td>같은 굵기 막대에 감기</td></tr><tr><td style="font-weight:700">시저</td><td>알파벳을 몇 칸 밀기</td><td>미는 칸 수 (+3)</td><td>반대로 밀기 (−3)</td></tr><tr><td style="font-weight:700">모스 부호</td><td>글자를 점·선으로</td><td>부호표</td><td>부호표를 거꾸로 보기</td></tr></table><style>#t3 td{padding:12px 10px;border-top:1px solid #E5E7EB}</style><aside>지난 암호들을 3요소로 다시 정리하며, 오늘 설계할 때도 이 3가지를 꼭 정해야 함을 강조.</aside></section>
+<section style="background:#EEF4F4; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">활동 1 · 나만의 암호 설계</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">암호의 종류도, 규칙도 자유! 막막하다면 이렇게</p><div data-build-in="rise 1" style="position:absolute; left:96px; top:190px; width:560px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:266px; border-left:12px solid #8E44AD"><p style="font-size:38px; font-weight:900; color:#8E44AD">① 자리 바꾸기</p><p style="font-size:26px; color:#4A5568">참고: 스키테일</p><p style="font-size:30px; margin-top:8px">글자를 몇 칸씩 줄지어 쓰고<br>다른 방향으로 읽기</p></div><div data-build-in="rise 2" style="position:absolute; left:680px; top:190px; width:560px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:266px; border-left:12px solid #1F6FB2"><p style="font-size:38px; font-weight:900; color:#1F6FB2">② 글자 바꾸기</p><p style="font-size:26px; color:#4A5568">참고: 시저</p><p style="font-size:30px; margin-top:8px">다른 글자·숫자로 바꾸기<br><span style="font-family:Consolas,'D2Coding',monospace; font-weight:700; font-size:30px">C = 3 × P + 2</span></p></div><div data-build-in="rise 3" style="position:absolute; left:1264px; top:190px; width:560px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:266px; border-left:12px solid #2E9E5B"><p style="font-size:38px; font-weight:900; color:#2E9E5B">③ 신호·기호로</p><p style="font-size:26px; color:#4A5568">참고: 모스</p><p style="font-size:30px; margin-top:8px">점·선, 0·1, 나만의<br>그림 기호로 나타내기</p></div><div data-build-in="rise 4" style="position:absolute; left:96px; top:480px; width:560px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:266px; border-left:12px solid #D9822B"><p style="font-size:38px; font-weight:900; color:#D9822B">④ 확인 숫자 붙이기</p><p style="font-size:26px; color:#4A5568">참고: 바코드</p><p style="font-size:30px; margin-top:8px">암호문 끝에 오류를 잡는<br>체크숫자 넣기</p></div><div data-build-in="rise 5" style="position:absolute; left:680px; top:480px; width:560px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:266px; border-left:12px solid #E4572E"><p style="font-size:38px; font-weight:900; color:#E4572E">⑤ 소수 이용하기</p><p style="font-size:26px; color:#4A5568">참고: RSA</p><p style="font-size:30px; margin-top:8px">A=2, B=3, C=5 …처럼<br>소수로 번호 붙이기</p></div><div data-build-in="rise 6" style="position:absolute; left:1264px; top:480px; width:560px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:266px; border-left:12px solid #1E2A3A"><p style="font-size:38px; font-weight:900; color:#1E2A3A">⑥ 완전히 새로운 암호</p><p style="font-size:26px; color:#4A5568">참고: 나만의 것</p><p style="font-size:30px; margin-top:8px">격자, 달력, 좌표,<br>여러 방법 섞기 … 무엇이든!</p></div><div data-build-in="rise 7" style="position:absolute; left:96px; top:790px; width:1728px; background:#FCE0C4; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; "><b style="color:#E4572E">꼭 정하기</b>  ① 암호 이름  ② 암호화 규칙 (말·식·그림·표)  ③ <b style="color:#E4572E">열쇠</b>  ④ 복호화 방법  ⑤ 숨어 있는 수학<br><span style="font-size:32px; color:#4A5568">→ 활동지 [활동 1] 칸을 채우고, 내 규칙을 <b style="color:#1F6FB2">다른 사람이 읽어도 이해할 수 있게</b> 써 보세요.</span></div><aside>①~⑥은 예시일 뿐 제한이 아니다. 두 가지를 섞거나(예: 자리 바꾸기 후 소수 번호) 완전히 새로운 암호도 환영.</aside></section>
+<section style="background:#F7F6F1; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">좋은 암호의 조건</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">열쇠를 가진 사람은 반드시 풀 수 있어야 암호다</p><div data-build-in="rise 1" style="position:absolute; left:96px; top:200px; width:840px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:560px"><p style="font-size:34px; font-weight:700; color:#1F7A8C">조건 ① 서로 다른 글자는 구별되게</p><p style="font-size:34px; margin-top:14px">"모음(A, E, I, O, U)은<br>전부 ★로 바꾼다"</p><p style="font-size:34px; margin-top:10px">CAT → C★T,&nbsp; CUT → C★T</p><p style="font-size:32px; color:#4A5568; margin-top:12px">C★T를 받으면 CAT인지 CUT인지<br>알 수 없다! ✕</p></div><div data-build-in="rise 2" style="position:absolute; left:984px; top:200px; width:840px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:560px"><p style="font-size:34px; font-weight:700; color:#1F7A8C">조건 ② 거꾸로 되돌릴 수 있게</p><p style="font-size:32px; margin-top:14px">계산했다면 → <b style="color:#E4572E">반대 연산</b>을 <b style="color:#E4572E">거꾸로 순서</b>로<br><span style="font-size:30px">×3 → +2 &nbsp;⇒&nbsp; −2 → ÷3</span></p><p style="font-size:32px; margin-top:14px">자리를 바꿨다면 → <b style="color:#E4572E">같은 칸 수</b>로<br>다시 줄지어 쓰기</p><p style="font-size:32px; color:#4A5568; margin-top:14px">양말 신고 → 신발 신기<br>신발 벗고 → 양말 벗기 🧦👟</p></div><div data-build-in="rise 3" style="position:absolute; left:96px; top:820px; width:1728px; background:#DDEFE3; border-radius:16px; padding:24px 32px; font-size:36px; line-height:1.45; "><b style="color:#2E9E5B">스스로 점검</b>  내 암호문을 <b style="color:#1F6FB2">열쇠만 가지고</b> 다시 풀어 보았을 때 원래 메시지가 <b style="color:#1F6FB2">딱 하나</b>로 나오나요?</div><aside>조건 ①은 수학의 '대응'(하나의 글자 ↔ 하나의 암호) 개념과 연결된다.</aside></section>
+<section style="background:#EEF4F4; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">활동 2 · 예시</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">같은 메시지, 다른 암호: MATH IS FUN</p><div data-build-in="rise 1" style="position:absolute; left:96px; top:200px; width:416px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:560px; border-top:10px solid #8E44AD"><p style="font-size:36px; font-weight:900; color:#8E44AD">자리 바꾸기</p><p style="font-size:29px; margin-top:10px; line-height:1.55">3글자씩 줄지어 쓰기<br><span style="font-family:Consolas,'D2Coding',monospace; font-weight:700; font-size:38px">MAT<br>HIS<br>FUN</span><br>세로로 읽기 → <b style="color:#1F6FB2">MHF AIU TSN</b></p><p style="font-size:28px; color:#8E44AD; font-weight:700; margin-top:10px">열쇠: 3칸</p></div><div data-build-in="rise 2" style="position:absolute; left:536px; top:200px; width:416px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:560px; border-top:10px solid #1F6FB2"><p style="font-size:36px; font-weight:900; color:#1F6FB2">수식으로 바꾸기</p><p style="font-size:29px; margin-top:10px; line-height:1.55">A=0, B=1, …, Z=25<br><span style="font-family:Consolas,'D2Coding',monospace; font-weight:700; font-size:32px">C = 3 × P + 2</span><br>MATH → <b style="color:#1F6FB2">38, 2, 59, 23</b></p><p style="font-size:28px; color:#1F6FB2; font-weight:700; margin-top:10px">열쇠: ×3, +2</p></div><div data-build-in="rise 3" style="position:absolute; left:976px; top:200px; width:416px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:560px; border-top:10px solid #E4572E"><p style="font-size:36px; font-weight:900; color:#E4572E">소수 번호</p><p style="font-size:29px; margin-top:10px; line-height:1.55">A=2, B=3, C=5, D=7, …<br>(알파벳 순서대로 소수)<br>MATH → <b style="color:#1F6FB2">41, 2, 71, 19</b></p><p style="font-size:28px; color:#E4572E; font-weight:700; margin-top:10px">열쇠: 소수 번호표</p></div><div data-build-in="rise 4" style="position:absolute; left:1416px; top:200px; width:416px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:560px; border-top:10px solid #2E9E5B"><p style="font-size:36px; font-weight:900; color:#2E9E5B">이진 신호</p><p style="font-size:29px; margin-top:10px; line-height:1.55">글자 번호를 이진법 5자리로<br>M(12) → <b style="color:#1F6FB2">01100</b><br>A(0) → <b style="color:#1F6FB2">00000</b></p><p style="font-size:28px; color:#2E9E5B; font-weight:700; margin-top:10px">열쇠: 이진법 5자리</p></div><div data-build-in="rise 5" style="position:absolute; left:96px; top:800px; width:1728px; background:#FCE0C4; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; ">여러분의 암호는 이 중 하나일 수도, <b style="color:#E4572E">전혀 다른 모양</b>일 수도 있어요.<br><b style="color:#2E9E5B">검산 습관</b> 만든 암호문을 내 복호화 방법으로 <b style="color:#E4572E">다시 풀어 보기!</b></div><aside>소수 번호표: A2 B3 C5 D7 E11 F13 G17 H19 I23 J29 K31 L37 M41 N43 O47 P53 Q59 R61 S67 T71 U73 V79 W83 X89 Y97 Z101. 자리 바꾸기 예시는 9글자를 3×3으로 쓴 것(스키테일과 같은 원리).</aside></section>
+<section style="background:#F7F6F1; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">도구 ① · 자리 바꾸기 암호를 고른 친구</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">자리 바꾸기 기계</p>
+<style>
+#tm input[type=text]{font:700 44px Consolas,'D2Coding',monospace; padding:8px 14px; border:3px solid #CBD5E1; border-radius:10px}
+#tm .k span{display:inline-block; width:70px; text-align:center; background:#DCEBEE; border-radius:10px; padding:6px 0; margin-right:8px; font:700 34px Arial; cursor:pointer}
+#tm .k span.on{background:#1F7A8C; color:#FFF}
+#tmG{display:inline-grid; gap:6px}
+#tmG div{width:64px; height:64px; background:#FFF; border-radius:8px; display:flex; align-items:center; justify-content:center; font:700 36px Consolas,monospace}
+#tmOut{font-size:40px; background:#FFF; border-radius:14px; padding:18px 24px; line-height:1.5; word-break:break-all}
+</style>
+<div id="tm" class="ix" style="position:absolute; left:96px; top:190px; width:1728px; display:flex; gap:48px">
+ <div style="width:900px; display:flex; flex-direction:column; gap:20px">
+  <p style="font-size:36px; font-weight:700">메시지 <input type="text" id="tmW" value="MATH IS FUN" style="width:560px"></p>
+  <p class="k" style="font-size:36px; font-weight:700">열쇠(칸 수) <span>2</span><span class="on">3</span><span>4</span><span>5</span><span>6</span></p>
+  <div id="tmOut"></div>
+  <p style="font-size:30px; color:#4A5568; line-height:1.5">① 메시지를 열쇠 칸 수만큼씩 가로로 줄지어 쓴다<br>② 첫 번째 세로줄부터 위에서 아래로 읽는다<br>빈칸은 X로 채운다 · 스키테일과 같은 원리!</p>
+ </div>
+ <div><p style="font-size:30px; color:#1F7A8C; font-weight:700; margin-bottom:10px">가로로 쓰기</p><div id="tmG"></div></div>
+</div>
+<script>
+(function(){
+ var W=document.getElementById('tmW'),k=3;
+ function draw(){
+  var w=W.value.toUpperCase().replace(/[^A-Z가-힣0-9]/g,''); while(w.length%k)w+='X';
+  var g=document.getElementById('tmG'); g.style.gridTemplateColumns='repeat('+k+',64px)';
+  var h='';for(var i=0;i<w.length;i++)h+='<div style="color:'+['#8E44AD','#1F6FB2','#2E9E5B','#D9822B','#E4572E','#1E2A3A'][i%k]+'">'+w[i]+'</div>';g.innerHTML=h;
+  var o='';for(var c=0;c<k;c++){for(var r=c;r<w.length;r+=k)o+=w[r];o+=' ';}
+  document.getElementById('tmOut').innerHTML='암호문: <b style="color:#E4572E">'+o.trim()+'</b>';
+ }
+ document.querySelectorAll('#tm .k span').forEach(function(s){s.onclick=function(){document.querySelectorAll('#tm .k span').forEach(function(x){x.classList.remove('on');});s.classList.add('on');k=+s.textContent;draw();};});
+ W.addEventListener('input',draw); W.addEventListener('keydown',function(e){e.stopPropagation();});
+ document.querySelectorAll('.ix').forEach(function(x){x.addEventListener('click',function(e){e.stopPropagation();});});
+ draw();
+})();
+</script><aside>학생의 메시지를 넣어 열쇠를 바꿔 보며 암호문이 어떻게 달라지는지 보여 준다. 입력칸 타이핑 중에는 슬라이드가 넘어가지 않는다.</aside></section>
+<section style="background:#EEF4F4; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">도구 ② · 글자를 숫자로 바꾸는 암호를 고른 친구</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">수식 암호 점검 기계</p>
+<style>
+#fm .row{display:flex; align-items:center; gap:14px}
+#fm input[type=text]{font:700 44px Consolas,'D2Coding',monospace; padding:8px 14px; border:3px solid #CBD5E1; border-radius:10px}
+#fm .pre span{display:inline-block; background:#DCEBEE; border-radius:10px; padding:6px 14px; margin:4px 6px 4px 0; font:700 28px Consolas,'D2Coding',monospace; cursor:pointer}
+#fmTab{display:grid; grid-template-columns:repeat(13,1fr); gap:6px; margin-top:6px}
+#fmTab div{background:#FFF; border-radius:10px; text-align:center; padding:6px 0; font-size:24px; color:#4A5568}
+#fmTab div b{display:block; font-size:30px; color:#1E2A3A; font-family:Arial,sans-serif}
+#fmTab div.dup{background:#FDE2DC}
+#fmTab div.dup b{color:#E4572E}
+#fmMsg{font-size:32px; line-height:1.45; padding:14px 22px; border-radius:14px; background:#DDEFE3}
+#fmMsg.bad{background:#FDE2DC}
+#fmOut{font-size:34px; line-height:1.5; background:#FFF; border-radius:14px; padding:14px 22px; word-break:break-all}
+#fm label{font-size:28px; display:flex; align-items:center; gap:8px; cursor:pointer}
+#fm label input{width:28px; height:28px}
+</style>
+<div id="fm" class="ix" style="position:absolute; left:96px; top:180px; width:1728px; display:flex; flex-direction:column; gap:14px">
+ <div class="row"><span style="font-size:40px; font-weight:700">C =</span><input type="text" id="fmF" value="3P+2" style="width:560px">
+  <label><input type="checkbox" id="fmMod">26으로 나눈 나머지 쓰기</label>
+  <span style="font-size:24px; color:#4A5568">P: 글자 번호, n: 몇 번째 글자인지(1, 2, 3…)<br>× ÷ ² 도 입력 가능 (예: 5P−7, P², (P+1)×4)</span></div>
+ <div class="pre" style="font-size:26px; color:#4A5568">예시 식: <span>P+3</span><span>3P+2</span><span>P-30</span><span>(P-13)^2</span><span>P²</span><span>P+n</span><span>2P</span></div>
+ <div id="fmTab"></div>
+ <div id="fmMsg"></div>
+ <div class="row"><span style="font-size:34px; font-weight:700">메시지</span><input type="text" id="fmW" value="MATH" style="width:380px"><div id="fmOut" style="flex:1"></div></div>
+</div>
+<script>
+(function(){
+ var L='ABCDEFGHIJKLMNOPQRSTUVWXYZ', f=null, usesN=false;
+ var F=document.getElementById('fmF'),W=document.getElementById('fmW'),MD=document.getElementById('fmMod');
+ function compile(src){
+  var s=String(src).replace(/\s+/g,'').replace(/^[cC]=/,'');
+  s=s.replace(/[×xX·]/g,'*').replace(/÷/g,'/').replace(/[−–]/g,'-').replace(/²/g,'^2').replace(/³/g,'^3').replace(/p/g,'P').replace(/N/g,'n');
+  s=s.replace(/(\d|\))(?=[Pn(])/g,'$1*').replace(/([Pn])(?=[\d(Pn])/g,'$1*').replace(/\)(?=\d)/g,')*');
+  s=s.replace(/\^/g,'**');
+  if(!s||!/^[0-9Pn+\-*/().]+$/.test(s))throw 0;
+  usesN=/n/.test(s);
+  var g=new Function('P','n','return ('+s+');'); g(1,1); return g;
+ }
+ function val(P,n){var v=f(P,n); if(MD.checked&&Number.isInteger(v)) v=((v%26)+26)%26; return v;}
+ function fmt(v){return Number.isInteger(v)?String(v):(isFinite(v)?(Math.round(v*100)/100)+'…':'?');}
+ function draw(){
+  var tab=document.getElementById('fmTab'),msg=document.getElementById('fmMsg');
+  try{f=compile(F.value);}catch(e){f=null;}
+  if(!f){tab.innerHTML='';msg.className='bad';msg.innerHTML='식을 확인해 주세요. (예: 3P+2, P−30, P², (P+1)×4)';document.getElementById('fmOut').innerHTML='';return;}
+  var vals=[],seen={},h='';
+  for(var P=0;P<26;P++){var v=val(P,1);vals.push(v);(seen[v]=seen[v]||[]).push(L[P]);}
+  var dups=Object.keys(seen).filter(function(k){return seen[k].length>1;});
+  for(P=0;P<26;P++)h+='<div class="'+(seen[vals[P]].length>1?'dup':'')+'">'+L[P]+'<b>'+fmt(vals[P])+'</b></div>';
+  tab.innerHTML=h;
+  var frac=vals.some(function(v){return !Number.isInteger(v);});
+  if(dups.length){msg.className='bad';msg.innerHTML='✕ 같은 숫자가 나오는 글자가 있어요: '+dups.slice(0,4).map(function(k){return '<b>'+seen[k].join('·')+'</b> → '+fmt(+k);}).join(', ')+(dups.length>4?' …':'')+'<br>받는 사람이 어떤 글자인지 구별할 수 없어요!';}
+  else{msg.className='';msg.innerHTML='✓ 26개 글자가 모두 서로 다른 숫자가 돼요 → 거꾸로 되돌릴 수 있어요!'+(usesN?'<br><span style="font-size:26px">(n을 쓰는 식은 위 표가 첫 번째 글자(n=1) 기준이에요)</span>':'')+(frac?'<br><span style="font-size:26px">소수점 숫자가 나오면 주고받기 불편할 수 있어요.</span>':'');}
+  enc();
+ }
+ function enc(){
+  var o=document.getElementById('fmOut'); if(!f){o.innerHTML='';return;}
+  var w=W.value.toUpperCase().replace(/[^A-Z]/g,''); if(!w){o.innerHTML='영어 글자를 넣어 보세요';return;}
+  var cs=[],back='';
+  for(var i=0;i<w.length;i++){var c=val(L.indexOf(w[i]),i+1);cs.push(c);
+   var m=[];for(var P=0;P<26;P++)if(val(P,i+1)===c)m.push(L[P]); back+=(m.length===1?m[0]:'<span style="color:#E4572E">?</span>');}
+  o.innerHTML='암호문: <b style="color:#1F6FB2">'+cs.map(fmt).join(', ')+'</b>  <span style="font-size:28px; color:#4A5568">| 되돌리기: '+back+(back===w?' ✓':'')+'</span>';
+ }
+ F.addEventListener('input',draw); W.addEventListener('input',enc); MD.addEventListener('change',draw);
+ document.querySelectorAll('#fm .pre span').forEach(function(s){s.onclick=function(){F.value=s.textContent;draw();};});
+ document.querySelectorAll('#fm input').forEach(function(i){i.addEventListener('keydown',function(e){e.stopPropagation();});});
+ document.querySelectorAll('.ix').forEach(function(x){x.addEventListener('click',function(e){e.stopPropagation();});});
+ draw();
+})();
+</script><aside>학생 식을 입력해 '같은 숫자' 여부를 함께 확인. (P−13)^2 → 쌍으로 겹침, 2P + 나머지 체크 → A와 N이 모두 0 (26 = 2 × 13이므로 곱하는 수는 홀수이면서 13이 아니어야 한다 → 아핀 암호, 러닝페어 심화 주제).</aside></section>
+<section style="background:#F7F6F1; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">활동 3 · AI와 암호 대화</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">AI와 암호문을 3번 주고받기</p><div data-build-in="rise 1" style="position:absolute; left:96px; top:190px; width:1728px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; border-left:14px solid #1F6FB2"><div style="display:flex; gap:32px; align-items:flex-start"><div style="min-width:330px"><p style="font-size:30px; font-weight:900; color:#1F6FB2">Round 1</p><p style="font-size:40px; font-weight:900">해독 도전</p><p style="font-size:26px; color:#4A5568">규칙은 숨기고 암호문만 보내기</p></div><p style="font-size:31px; background:#FFF7E8; border-left:8px solid #F0A030; padding:12px 20px; border-radius:8px; flex:1">"내가 직접 만든 암호야. 암호문은 MHF AIU TSN이야. 어떤 규칙으로 만들었는지, 원래 메시지가 무엇인지 추리해 줄래? 어떻게 추리했는지도 알려 줘."</p></div></div><div data-build-in="rise 2" style="position:absolute; left:96px; top:452px; width:1728px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; border-left:14px solid #2E9E5B"><div style="display:flex; gap:32px; align-items:flex-start"><div style="min-width:330px"><p style="font-size:30px; font-weight:900; color:#2E9E5B">Round 2</p><p style="font-size:40px; font-weight:900">정확하게 설명하기</p><p style="font-size:26px; color:#4A5568">규칙을 설명하고 해독 부탁</p></div><p style="font-size:31px; background:#FFF7E8; border-left:8px solid #F0A030; padding:12px 20px; border-radius:8px; flex:1">"내 규칙을 알려 줄게. 메시지를 3글자씩 가로로 줄지어 쓴 다음, 첫 번째 세로줄부터 위에서 아래로 읽었어. 이 규칙대로 풀어 줘. 과정도 보여 줘."</p></div></div><div data-build-in="rise 3" style="position:absolute; left:96px; top:714px; width:1728px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; border-left:14px solid #E4572E"><div style="display:flex; gap:32px; align-items:flex-start"><div style="min-width:330px"><p style="font-size:30px; font-weight:900; color:#E4572E">Round 3</p><p style="font-size:40px; font-weight:900">AI의 답장</p><p style="font-size:26px; color:#4A5568">내 규칙으로 암호화된 답장 받아 풀기</p></div><p style="font-size:31px; background:#FFF7E8; border-left:8px solid #F0A030; padding:12px 20px; border-radius:8px; flex:1">"이제 네 차례야. 내 암호 규칙으로 암호화한 짧은 답장을 보내 줘. 원래 메시지는 말하지 마!"</p></div></div><p data-build-in="rise 4" style="position:absolute; left:96px; top:980px; font-size:32px; color:#1F7A8C; font-weight:700">라운드마다 AI의 답을 활동지에 기록하고, 맞았는지 직접 확인하기!</p><aside>질문 예시는 자리 바꾸기 암호 기준. 학생은 자기 암호에 맞게 괄호 부분만 바꿔 쓴다. Round 1에서 AI가 쉽게 풀면 '왜 쉽게 풀렸을까?'를 토론 소재로.</aside></section>
+<section style="background:#EEF4F4; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">수학적 소통</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">AI의 답을 그대로 믿어도 될까?</p><div data-build-in="rise 1" style="position:absolute; left:96px; top:200px; width:840px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:420px"><p style="font-size:34px; font-weight:700; color:#E4572E">모호한 설명 😵</p><p style="font-size:36px; margin-top:14px">"글자를 3개씩 섞었어"</p><p style="font-size:30px; color:#4A5568; margin-top:14px">· 어떤 순서로 섞었지?<br>· 가로로 썼어, 세로로 썼어?<br>· 남는 칸은 어떻게 했지?</p></div><div data-build-in="rise 2" style="position:absolute; left:984px; top:200px; width:840px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; height:420px"><p style="font-size:34px; font-weight:700; color:#2E9E5B">정확한 설명 👍</p><p style="font-size:34px; margin-top:14px">"메시지를 3글자씩 가로로 줄지어 쓰고, 빈칸은 X로 채운 뒤, 첫 번째 세로줄부터 위에서 아래로 읽었어."</p></div><div data-build-in="rise 3" style="position:absolute; left:96px; top:660px; width:1728px; background:#FCE0C4; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; "><b style="color:#E4572E">AI도 틀릴 수 있다!</b>  규칙을 다르게 이해하거나, 글자·계산을 하나씩 실수하기도 해요.<br>→ AI의 답을 <b style="color:#1F6FB2">내 규칙으로 직접 확인</b>하고, 틀리면 <b style="color:#1F6FB2">어디가 틀렸는지 근거를 들어</b> 알려 주기</div><div data-build-in="rise 4" style="position:absolute; left:96px; top:890px; width:1728px; background:#DDEFE3; border-radius:16px; padding:24px 32px; font-size:36px; line-height:1.45; "><b style="color:#2E9E5B">수학적 소통</b> = 규칙과 순서를 <b style="color:#E4572E">정확한 말·식·그림</b>으로 나타내고, 상대의 풀이를 <b style="color:#E4572E">근거를 들어</b> 확인하는 것</div><aside>Round 2에서 AI가 틀리면 오히려 좋은 학습 기회. 설명을 고쳐 다시 보낸 과정을 활동지에 쓰게 한다.</aside></section>
+<section style="background:#F7F6F1; color:#1E2A3A; font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','Nanum Gothic',sans-serif; padding:96px; display:flex; flex-direction:column"><p style="position:absolute; left:96px; top:44px; font-size:30px; font-weight:700; color:#1F7A8C">활동 4 · 성찰 일지</p><p style="position:absolute; left:96px; top:90px; width:1728px; font-size:46px; font-weight:700; line-height:1.3">오늘 배운 것을 한 문장으로</p><div data-build-in="rise 1" style="position:absolute; left:96px; top:190px; width:1728px; background:#FCE0C4; border-radius:16px; padding:24px 32px; font-size:38px; line-height:1.45; "><b style="color:#2E9E5B">한 문장 정리 예시</b><br>"내 규칙을 다른 사람에게 정확하게 전하려면 <b style="color:#E4572E">규칙의 순서와 약속(열쇠)을 빠짐없이 밝히고, 거꾸로 풀어 확인하는 것</b>이 필요하다."</div><p data-build-in="rise 2" style="position:absolute; left:96px; top:455px; font-size:34px; font-weight:700; color:#1F7A8C">러닝페어 수학 탐구 주제 아이디어</p><div data-build-in="rise 2" style="position:absolute; left:96px; top:520px; width:854px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:32px; line-height:1.45; "><b style="color:#8E44AD">피그펜 암호</b><br>격자와 점으로 만든 그림 암호의 규칙은?</div><div data-build-in="rise 3" style="position:absolute; left:970px; top:520px; width:854px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:32px; line-height:1.45; "><b style="color:#8E44AD">비즈네르 암호</b><br>글자마다 다른 열쇠를 쓰면 얼마나 강해질까?</div><div data-build-in="rise 4" style="position:absolute; left:96px; top:720px; width:854px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:32px; line-height:1.45; "><b style="color:#8E44AD">에니그마와 앨런 튜링</b><br>제2차 세계대전의 암호 기계는 어떻게 풀렸을까?</div><div data-build-in="rise 5" style="position:absolute; left:970px; top:720px; width:854px; background:#FFFFFF; border-radius:16px; padding:24px 32px; font-size:32px; line-height:1.45; "><b style="color:#8E44AD">AI는 암호를 풀 수 있을까?</b><br>빈도 분석과 AI의 추리 방법 비교하기</div></section>
+</div><button id="fs">전체 화면</button><div id="bar"></div><script>
+const S=[...document.querySelectorAll('#stage>section')];let i=0,step=0;
+const groups=s=>{const m={};s.querySelectorAll('[data-build-in]').forEach(e=>{const n=parseInt((e.dataset.buildIn.split(' ')[1])||'1');(m[n]=m[n]||[]).push(e)});return Object.keys(m).map(Number).sort((a,b)=>a-b).map(k=>m[k])};
+const G=S.map(groups);
+function show(){S.forEach((s,k)=>s.classList.toggle('on',k===i));G[i].forEach((g,k)=>g.forEach(e=>e.classList.toggle('hid',k>=step)));document.getElementById('bar').textContent=(i+1)+' / '+S.length}
+function next(){if(step<G[i].length)step++;else if(i<S.length-1){i++;step=0}show()}
+function prev(){if(step>0)step--;else if(i>0){i--;step=G[i].length}show()}
+function fit(){const st=document.getElementById('stage'),k=Math.min(innerWidth/1920,innerHeight/1080);st.style.transform=`scale(${k}) translate(-50%,-50%)`}
+addEventListener('resize',fit);
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' ','PageDown','Enter'].includes(e.key)){e.preventDefault();next()}else if(['ArrowLeft','ArrowUp','PageUp','Backspace'].includes(e.key)){e.preventDefault();prev()}else if(e.key==='Home'){i=0;step=0;show()}else if(e.key==='f')fs()});
+function fs(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}
+document.getElementById('fs').onclick=e=>{e.stopPropagation();fs()};
+addEventListener('click',e=>{if(e.target.id==='fs')return;(e.clientX<innerWidth*0.3?prev:next)()});
+fit();show();
+</script><script id="ptrkitjs">
+(function(){
+ var MODES=['big','laser','plain'], NAMES={big:'큰 화살표 + 노란 원',laser:'레이저 점',plain:'보통 마우스'}, m=0;
+ try{m=Math.max(0,MODES.indexOf(localStorage.getItem('pm')||'big'))}catch(e){}
+ var halo=document.createElement('div');halo.id='halo';document.body.appendChild(halo);
+ var toast=document.createElement('div');toast.id='toast';document.body.appendChild(toast);
+ var btn=document.createElement('button');btn.id='ptr';btn.textContent='포인터';document.body.appendChild(btn);
+ var tt;function say(s){toast.textContent=s;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show')},1400);}
+ function setMode(k,quiet){m=k;MODES.forEach(function(x){document.body.classList.toggle('pm-'+x,x===MODES[m])});
+   try{localStorage.setItem('pm',MODES[m])}catch(e){} if(!quiet)say('포인터: '+NAMES[MODES[m]]+'  (P 키로 바꾸기)');}
+ setMode(m,true);
+ btn.onclick=function(e){e.stopPropagation();setMode((m+1)%3);};
+ var mx=-999,my=-999;
+ addEventListener('pointermove',function(e){if(e.pointerType==='touch'){halo.classList.remove('on');return;}
+   mx=e.clientX;my=e.clientY;halo.style.transform='translate('+mx+'px,'+my+'px)';halo.classList.add('on');});
+ document.addEventListener('mouseleave',function(){halo.classList.remove('on')});
+ // 확대
+ var z=1,cur=null,st=document.getElementById('stage');
+ function slideXY(){var r=st.getBoundingClientRect();return [(mx-r.left)/r.width*1920,(my-r.top)/r.height*1080];}
+ function apply(){var s=S[i];if(cur&&cur!==s){cur.style.transform='';}cur=s;
+   if(z<=1.001){z=1;s.style.transform='';return;}s.style.transform='scale('+z+')';}
+ function zoomTo(nz){var s=S[i];if(z<=1.001&&nz>1){var p=slideXY();s.style.transformOrigin=p[0]+'px '+p[1]+'px';}z=Math.min(4,Math.max(1,nz));apply();}
+ addEventListener('wheel',function(e){if(e.ctrlKey)return;e.preventDefault();zoomTo(e.deltaY<0?z*1.25:z/1.25);},{passive:false});
+ addEventListener('keydown',function(e){if(/INPUT|TEXTAREA/.test(e.target.tagName))return;var k=e.key.toLowerCase();
+   if(k==='p'){setMode((m+1)%3);}else if(k==='z'){zoomTo(z>1?1:2);}else if(e.key==='Escape'&&z>1){zoomTo(1);}},true);
+ // 방금 나온 단계 강조 + 슬라이드 바뀌면 확대 해제
+ var show0=show;
+ show=function(){show0();if(cur&&cur!==S[i]){cur.style.transform='';z=1;}
+   document.querySelectorAll('section p.cur').forEach(function(e){e.classList.remove('cur')});
+   var g=G[i][step-1];if(g&&step>0)g.forEach(function(e){if(e.tagName==='P'&&!/background/.test(e.getAttribute('style')||''))e.classList.add('cur')});};
+ show();
+})();
+</script></body></html>
