@@ -126,7 +126,7 @@ O = C[0]
 p['E'] = foot(p['A'], p['B'], p['C']); p['D'] = foot(O, p['B'], p['C']); p['F'] = foot(p['C'], p['A'], p['B'])
 p['G'] = inter(p['A'], p['E'], p['C'], p['F'])
 quadrev('두 쌍의 대변이 각각 평행 → 평행사변형')
-prob('m10', '도전 문제 10 · 서술형', 'BH는 지름 → 지름에 대한 원주각은 90°', accent='#B5651D')
+prob('m10', '도전 문제 10 · 서술형', 'BH는 지름 → 반원에 대한 원주각은 90°', accent='#B5651D')
 sol('m10', '10 (1)', [
     ('① BH는 지름 → [r]∠BCH = 90°[/r] → CH ⊥ BC\nAE ⊥ BC이므로 [r]AG ∥ CH[/r]', [right(p['C'], p['B'], p['H'], 14, R), line(p['C'], p['H'], R, 4), line(p['A'], p['G'], R, 4)]),
     ('② [b]∠BAH = 90°[/b] → AH ⊥ AB\nCF ⊥ AB이므로 [b]AH ∥ GC[/b]', [right(p['A'], p['B'], p['H'], 14, BL), line(p['A'], p['H'], BL, 4), line(p['G'], p['C'], BL, 4)]),
