@@ -5,7 +5,7 @@ import re, sys
 
 def rng(a, b, label): return {i: label for i in range(a, b + 1)}
 
-R175 = '175쪽 참고'
+R175 = '중2 복습'   # 2학년 교과서 175쪽 그림: 3학년 교과서 쪽수가 아니므로 쪽수 없이 표시
 MAP = {
  '187-189_원과직선_중단원마무리_풀이.html': {**rng(2, 8, '187쪽'), **rng(9, 16, '188쪽'), **rng(17, 24, '189쪽')},
  '190-194_원주각_1차시_원주각과중심각.html': {**rng(2, 5, '190쪽'), **rng(6, 9, '191쪽'), **rng(10, 13, '192쪽'), 14: '192~193쪽',
@@ -31,7 +31,7 @@ def patch(path, labels):
         k += 1
         out.append(s[pos:m.end()]); pos = m.end()
         if k in labels:
-            out.append(f'{TAG}style="{STYLE}">교과서 {labels[k]}</p>')
+            out.append(f'{TAG}style="{STYLE}">{labels[k] if labels[k].startswith("중2") else "교과서 " + labels[k]}</p>')
     out.append(s[pos:])
     open(path, 'w', encoding='utf-8').write(''.join(out))
     return k
