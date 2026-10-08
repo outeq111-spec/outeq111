@@ -131,5 +131,5 @@ S += [old('p11'), sol('11', 'f11', [
     ('④ 24x = 48 → x = 2', []),
 ], '답 · 2 cm', notes='검산: AE = 8, BE = 4, AB = 4√3 → 16 + 48 = 64 = 8²', accent='#B5651D')]
 
-write('/home/user/outeq111/원과직선_중단원마무리_풀이.html', '원과 직선 중단원 마무리 풀이', S)
+write('/home/user/outeq111/187-189_원과직선_중단원마무리_풀이.html', '원과 직선 중단원 마무리 풀이', S)
 print(len(S), 'slides')

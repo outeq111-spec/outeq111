@@ -146,7 +146,7 @@ sol('m11', '11', [
     ('③ △EBC에서 외각 ∠ABC: x = 42° + (180° − 2x)\n→ x = 74°', [poly([p['E'], p['B'], p['C']], G, 0.22)]),
     ('④ □ABCD는 원에 내접 → ∠D = 180° − 74° = 106°', [wedge(p['D'], p['A'], p['C'], 30, OR, 0.55)]),
 ], '답 · 106°', accent='#B5651D')
-write('/home/user/outeq111/원주각_중단원마무리_풀이.html', '원주각 중단원 마무리', S)
+write('/home/user/outeq111/204-206_원주각_중단원마무리_풀이.html', '원주각 중단원 마무리', S)
 print('mid', len(S))
 
 # ================= 대단원 마무리 =================
@@ -295,6 +295,6 @@ bsol('b16', '16', [
 ], '답 · 50°')
 
 S.append(crops('자기 평가', None, [(6, (220, 2080, 2200, 2880))], [], bg=BG1, accent=V))
-write('/home/user/outeq111/원의성질_대단원마무리_풀이.html', '원의 성질 대단원 마무리', S)
+write('/home/user/outeq111/207-209_원의성질_대단원마무리_풀이.html', '원의 성질 대단원 마무리', S)
 print('big', len(S))
 for b in audit.report(FIG): print('BAD', b)

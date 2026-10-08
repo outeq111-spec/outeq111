@@ -116,5 +116,5 @@ S.append(solve('아벨로스 · 활동 2', '원 O의 넓이와 색칠한 부분�
     ('③ 색칠한 부분 = ½π(a+b)² − ½πa² − ½πb²\n= [g]πab[/g]', []),
 ], '답 · 두 넓이는 같다', figmax=(900, 620)))
 
-write('/home/user/outeq111/원주각_2차시_원주각과호의길이.html', '원주각 2차시', S)
+write('/home/user/outeq111/195-197_원주각_2차시_원주각과호의길이.html', '원주각 2차시', S)
 print(len(S), 'slides')

@@ -194,5 +194,5 @@ S.append(crops('설명하기 ②', None, [(5, (680, 2540, 2140, 2830))], [
     'D가 원 내부면 ∠ADB > ∠ACB, 외부면 ∠ADB < ∠ACB (①)',
     '그런데 ∠ACB = ∠ADB이므로 D는 [b]원 위에 있다[/b] → 네 점은 한 원 위에 있다.']))
 
-write('/home/user/outeq111/원주각_1차시_원주각과중심각.html', '원주각 1차시', S)
+write('/home/user/outeq111/190-194_원주각_1차시_원주각과중심각.html', '원주각 1차시', S)
 print(len(S), 'slides')
