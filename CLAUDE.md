@@ -46,7 +46,7 @@
   - 순서: 생각톡 교과서 슬라이드(설명 pill 없이) → 드래그 탐구 → 같은 교과서 슬라이드 + pill('생각톡 정리'). 원주각 1차시(`inscribed_explore.py`), 2차시(`arc_explore.py`, 시계 눈금에 맞춰 A·B·C·D·P 이동), 원주각의 활용 2차시(`tangent_explore.py`, B·C를 끌어 ∠BAT = ∠BCA, [그림 1~3] 버튼) 적용.
   - 교과서 페이지 이미지가 없는 새 세션에서는 기존 HTML의 `<section>`을 파이썬으로 잘라 붙여 수정 가능 (원주각 2차시, 원주각의 활용 2차시가 그렇게 수정됨). 드래그 SVG에는 `user-select:none` + pointerdown `preventDefault`.
 - **증명·설명 슬라이드는 '처음 주어진 그림'에서 시작**한다 (선생님 요청). 교과서 그림에 보조선·각 표시·작도한 점이 이미 있으면 지우고(`proof_base.py` Eraser: keep_* / kill_seg·kill_sector·kill_box), 단계마다 지운 것을 색으로 다시 그려 마지막에 교과서 그림이 완성되게 한다. 적용: `proof_rework.py` (그림별 지우기는 `proof_specs.py`, 원본·결과 PNG는 assets/proofbase/). deck2.py·deck34.py를 다시 돌리면 그 뒤에 `python3 proof_rework.py`도 실행. 원주각 1차시(deck1) 증명 슬라이드는 아직 미적용.
-- 원주각의 활용 2차시 '활동 2(해냄이)' 슬라이드와 술술이 이름은 `patch_chord_activity2.py`로 HTML에 직접 패치함. deck34.py를 다시 돌리면 이 패치도 다시 실행.
+- 원주각의 활용 2차시는 HTML에 직접 패치함: `patch_chord_activity2.py`(술술이 이름, 활동 2 삼각형 설명), `patch_quadrev_ttukttak.py`(활동 1 뚝딱이 앞 사각형 복습). deck34.py를 다시 돌리면 두 패치도 다시 실행.
 - 사각형 성질이 필요한 문제 앞에는 `quadrev()` 복습 슬라이드(여러 가지 사각형 사이의 관계, assets/quad.png)를 넣는다.
 
 ## 과거 실수 (반복 금지)
