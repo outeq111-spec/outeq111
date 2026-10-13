@@ -1,4 +1,4 @@
-"""가독성·수식 글꼴 패치 (HTML 직접 패치). 사용: python3 tools/slidegen/patch_readability.py 파일.html  (저장소 루트에서)
+"""가독성·수식 글꼴 패치 (HTML 직접 패치). 사용: python3 tools/slidegen/patch_readability.py 파일.html [변수글자, 기본 xy]  (저장소 루트에서)
  1) 풀이 단계 글자 크기 키우고(40→44, 36→40px) 단계 간격은 원래대로 두고 위치를 다시 계산(크롬으로 높이 측정)
  2) 본문 속 변수 x, y를 수학 기울임체(Times 계열 italic)로 표시: <i class="mv">x</i>
  덱을 다시 만들면 이 패치도 다시 실행 (한 번 적용한 파일에 다시 돌려도 안전: 이미 적용되면 건너뜀)."""
@@ -8,6 +8,8 @@ CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 BUMP = {40: 44, 36: 40, 32: 36}
 CSS = ('<style id="mvcss">i.mv{font-family:"Times New Roman","STIX Two Text","Noto Serif KR",serif;font-style:italic;'
        'font-weight:400;font-size:1.14em;padding:0 .05em;letter-spacing:0}b i.mv,.bold i.mv{font-weight:700}section p[data-build-in]{word-break:keep-all}</style>')
+
+VARS = 'xy'   # 기울임체로 바꿀 변수 글자 (명령줄 두 번째 인자로 바꿀 수 있음, 예: xyrR)
 
 def italicize(h):
     out = []; pos = 0
@@ -19,8 +21,8 @@ def italicize(h):
         parts = re.split(r'(<svg.*?</svg>|<[^>]+>)', sec, flags=re.S)
         for i, t in enumerate(parts):
             if i % 2 == 0:                          # 글자 부분만
-                t = re.sub(r'(?<![A-Za-z가-힣])([xy])(?![A-Za-z가-힣])', r'<i class="mv">\1</i>', t)
-                parts[i] = re.sub(r'(?<=\S) = (?=\S)', '&nbsp;=&nbsp;', t)       # '= 65'가 줄 끝에서 혼자 떨어지지 않게
+                t = re.sub(r'(?<![A-Za-z])([' + VARS + r'])(?![A-Za-z])', r'<i class="mv">\1</i>', t)
+                parts[i] = re.sub(r'(?<=\S) ([=+−×]) (?=\S)', r'&nbsp;\1&nbsp;', t)       # '= 65'가 줄 끝에서 혼자 떨어지지 않게
         out.append(''.join(parts))
     out.append(h[pos:])
     return ''.join(out)
@@ -85,6 +87,7 @@ def apply_layout(h, res):
 
 if __name__ == '__main__':
     p = sys.argv[1]; h = open(p, encoding='utf-8').read()
+    if len(sys.argv) > 2: VARS = sys.argv[2]
     if 'id="mvcss"' in h: print('already patched'); sys.exit()
     h = italicize(h)
     h = h.replace('left:1230px; top:', 'left:1215px; top:').replace('width:600px; font-size:32px', 'width:625px; font-size:32px')  # 활동 2 풀이 글

@@ -1,6 +1,6 @@
 """Ⅵ-2 중단원 마무리(204~206) · Ⅵ 대단원 마무리(207~209)."""
 import sys, math
-sys.path.insert(0, '/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4db87ef5a17/scratchpad/gen')
+import os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib
 lib.B = '/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4db87ef5a17/ch4/m'
 from lib import *
@@ -12,6 +12,10 @@ import audit; audit.install(globals())
 exec(open('/tmp/claude-0/-home-user-outeq111/d86e19ab-ec80-5ac1-a09b-c4db87ef5a17/ch4/spec.py').read())
 
 FIG = lib.B + '/fg'
+# 잘림 방지: 풀이 그림은 가장자리에 걸친 글자·선까지 보이게 넓혀서(좌표는 그대로), 문제 상자는 아래로 넓힌다
+lib.FIGSRC.update({k: (v[0], v[2]) for k, v in P.items() if v[2]})
+TOP = {'b13': 320}   # 13번 위 '서술형' 띠가 반쯤 잘려 보이므로 뺀다
+TRIM = {'b13': 812, 'b14': 1700, 'b15': 812, 'b16': 1726}   # 서술형 '풀이' 꼬리표 아래는 자른다
 def g(name, p, edges, circ=None, onc=''):
     return SNAP(name, p, fig_dir=FIG, spec=(E(edges), circ, onc))
 def refl(a, t): return (2*a[0]-t[0], 2*a[1]-t[1])
@@ -33,15 +37,16 @@ def quadrev(title):
 def prob(k, label, hint, accent=TEAL):
     pg, box, _ = P[k]
     if k.startswith('m'): box = (640,) + box[1:]
+    box = box[:3] + (TRIM[k],) if k in TRIM else lib.grow(pg, box, 'b', 120)
+    box = (box[0], TOP.get(k, box[1]), box[2], box[3] + (0 if k in TRIM else 24))   # 마지막 줄 아래 여백
     S.append(crops(label, None, [(pg, box)], [f'[b]핵심[/b] · {hint}'], bg=BG1, accent=accent))
 def sol(k, label, steps, ans, notes='', accent=TEAL):
     S.append(solve(label + ' 풀이', None, k, steps, ans, notes=notes, accent=accent))
 
 # ================= 중단원 마무리 =================
 S.append(cover('중단원 마무리<br>2. 원주각', '스스로 완성해 봅시다 · 표준 문제 01~08 · 도전 문제 09~11', 'Ⅵ. 원의 성질 · 교과서 204~206쪽'))
-S.append(crops('스스로 완성해 봅시다', None, [(1, (560, 360, 2200, 1680))], [
-    '① (1) ① ½  ② 원주각  ③ 90°   (2) ① 원주각  ② 호',
-    '② (1) 180°  (2) 내접   ③ 원주각']))
+S.append(crops('스스로 완성해 봅시다 ①', None, [(1, (560, 360, 2200, 1050))], ['① (1) ① ½  ② 원주각  ③ 90°   (2) ① 원주각  ② 호']))
+S.append(crops('스스로 완성해 봅시다 ②③', None, [(1, (560, 1050, 2200, 1680))], ['② (1) 180°  (2) 내접   ③ 원주각']))
 
 p, C = g('m01', dict(A=(114, 43), C=(312, 102), B=(102, 297), O=(181, 172)), 'A-C A-B O-A O-C', ((180, 168), 148), 'A B C')
 prob('m01', '표준 문제 01', '호의 길이는 중심각의 크기에 정비례')

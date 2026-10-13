@@ -20,10 +20,42 @@ def crop_uri(p, box):
     buf = io.BytesIO(); im.save(buf, 'JPEG', quality=85)
     return 'data:image/jpeg;base64,' + base64.b64encode(buf.getvalue()).decode(), im.size
 
+FIGSRC = {}   # 이름 -> (쪽, 그림 상자): 있으면 잘린 글자·선이 보이도록 상자를 넓혀서 보여 준다 (좌표계는 그대로)
+
+def grow(p, box, sides='lrtb', maxp=70, frac=0.003):
+    """상자 가장자리가 잉크를 자르고 있으면, 빈 줄(띠)이 나올 때까지 그 방향으로 넓힌다."""
+    import numpy as np
+    a = np.asarray(page(p).convert('L')) < 170
+    x0, y0, x1, y1 = box
+    for _ in range(2):
+        if 'b' in sides:
+            y = y1
+            while y < box[3] + maxp and a[y:y+4, x0:x1].mean() > frac: y += 2
+            y1 = max(y1, y + (6 if y > box[3] else 0))
+        if 't' in sides:
+            y = y0
+            while y > box[1] - maxp and a[y-4:y, x0:x1].mean() > frac: y -= 2
+            y0 = min(y0, y - (6 if y < box[1] else 0))
+        if 'r' in sides:
+            x = x1
+            while x < box[2] + maxp and a[y0:y1, x:x+4].mean() > frac: x += 2
+            x1 = max(x1, x + (6 if x > box[2] else 0))
+        if 'l' in sides:
+            x = x0
+            while x > box[0] - maxp and a[y0:y1, x-4:x].mean() > frac: x -= 2
+            x0 = min(x0, x - (6 if x < box[0] else 0))
+    return (x0, y0, x1, y1)
+
 def fig_uri(name):
-    im = Image.open(f'{B}/fg/{name}.png').convert('RGB')
+    """returns uri, (w, h), (left pad, top pad)"""
+    if name in FIGSRC:
+        p, box = FIGSRC[name]
+        gb = grow(p, box)
+        im = page(p).crop(gb); off = (box[0] - gb[0], box[1] - gb[1])
+    else:
+        im = Image.open(f'{B}/fg/{name}.png').convert('RGB'); off = (0, 0)
     buf = io.BytesIO(); im.save(buf, 'PNG', optimize=True)
-    return 'data:image/png;base64,' + base64.b64encode(buf.getvalue()).decode(), im.size
+    return 'data:image/png;base64,' + base64.b64encode(buf.getvalue()).decode(), im.size, off
 
 def rich(s):
     s = H.escape(s)
@@ -129,7 +161,7 @@ def crops(label, title, imgs, builds=(), notes='', bg=BG1, area=None, accent=TEA
 
 def solve(label, title, fig, steps, answer=None, notes='', bg=BG2, accent=TEAL, figmax=(880, 760), stepfont=40):
     """fig: figure name; steps: list of (text, [svg elements])"""
-    uri, (w, h) = fig_uri(fig)
+    r = fig_uri(fig); uri, (w, h) = r[0], r[1]; ox, oy = r[2] if len(r) > 2 else (0, 0)
     k = min(figmax[0]/w, figmax[1]/h)
     fw, fh = w*k, h*k
     top = 200
@@ -138,7 +170,7 @@ def solve(label, title, fig, steps, answer=None, notes='', bg=BG2, accent=TEAL, 
     out += f'<img src="{uri}" style="{box}; background:#FFFFFF; border-radius:14px">'
     for i, (_, els) in enumerate(steps):
         if els:
-            out += f'<svg data-build-in="fade {i+1}" style="{box}" viewBox="0 0 {w} {h}">{"".join(els)}</svg>'
+            out += f'<svg data-build-in="fade {i+1}" style="{box}" viewBox="{-ox} {-oy} {w} {h}">{"".join(els)}</svg>'
     sx = 96 + fw + 56; sw = 1824 - sx
     y = top
     per_line = max(10, int(sw / (stepfont*0.95)))
