@@ -57,11 +57,49 @@ def fig_uri(name):
     buf = io.BytesIO(); im.save(buf, 'PNG', optimize=True)
     return 'data:image/png;base64,' + base64.b64encode(buf.getvalue()).decode(), im.size, off
 
+# 근호를 글꼴과 상관없이 같은 모양으로: 뿌리 기호(SVG) + 윗줄(border) 높이를 em으로 고정
+RAD = ('<span style="display:inline-flex; align-items:flex-start; vertical-align:-0.25em">'
+       '<svg viewBox="0 0 12 23.3" style="width:0.6em; height:1.165em; overflow:visible"><path d="M0.6,13.5 L3.2,11.8 L6.6,22.3 L11.6,0.75 L12.2,0.75" '
+       'fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>'
+       '<span style="border-top:0.075em solid currentColor; padding:0.04em 0.06em 0 0.02em; line-height:1.05">{}</span></span>')
+_TAG = re.compile(r'\[(/?)(\w)\]')
+
+def _inline(t):
+    t = H.escape(t)
+    t = re.sub(r'\[(\w)\](.*?)\[/\1\]', lambda m: f'<b style="color:{COLORS[m.group(1)]}">{m.group(2)}</b>', t)
+    # 근호: √ 뒤 숫자·문자 위에 가로선 (√10 → √ + 윗줄 10)
+    t = re.sub(r'√(\d+|[a-z])', lambda m: RAD.format(m.group(1)), t)
+    return t
+
 def rich(s):
-    s = H.escape(s)
-    s = re.sub(r'\[(\w)\](.*?)\[/\1\]', lambda m: f'<b style="color:{COLORS[m.group(1)]}">{m.group(2)}</b>', s)
-    s = s.replace('\n', '<br>')
-    return s
+    """'\n= '로 시작하는 줄은 앞 줄의 식을 이어 쓰는 줄: 등호 위치를 맞춰 세로로 정렬한다."""
+    lines = s.split('\n'); carry = [None]
+    def cell(t):
+        if carry[0]: t = f'[{carry[0]}]' + t
+        op = None
+        for m in _TAG.finditer(t): op = None if m.group(1) else m.group(2)
+        if op: t += f'[/{op}]'
+        carry[0] = op
+        return _inline(t)
+    parts, i = [], 0
+    while i < len(lines):
+        j = i + 1
+        while j < len(lines) and lines[j].lstrip().startswith('= '): j += 1
+        if j > i + 1 and ' = ' in lines[i]:
+            a, b = lines[i].split(' = ', 1)
+            rows = [(cell(a), cell('='), cell(b))] + [('', cell('='), cell(l.lstrip()[2:])) for l in lines[i+1:j]]
+            parts.append(('g', rows)); i = j
+        else:
+            parts.append(('l', cell(lines[i]))); i += 1
+    out, prev = '', None
+    for kind, v in parts:
+        if kind == 'l':
+            out += ('<br>' if prev == 'l' else '') + v
+        else:
+            out += ('<span class="eqg" style="display:grid; grid-template-columns:max-content max-content auto; column-gap:0.3em; justify-content:start">'
+                    + ''.join(f'<span>{a}</span><span>{e}</span><span>{c}</span>' for a, e, c in v) + '</span>')
+        prev = kind
+    return out
 
 # ---------- svg primitives (figure pixel units) ----------
 def _pt(p): return f'{p[0]:.1f},{p[1]:.1f}'
@@ -75,7 +113,7 @@ def dot(p, c=R, r=5):
     return f'<circle cx="{p[0]}" cy="{p[1]}" r="{r}" fill="{c}"/>'
 def text(p, s, c=R, size=26, anchor='start'):
     return (f'<text x="{p[0]}" y="{p[1]}" font-size="{size}" font-family="Arial, sans-serif" font-weight="700" '
-            f'fill="{c}" stroke="#FFFFFF" stroke-width="5" paint-order="stroke" text-anchor="{anchor}">{H.escape(s)}</text>')
+            f'fill="{c}" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round" paint-order="stroke" text-anchor="{anchor}">{H.escape(s)}</text>')
 def lab(p, s, dx=10, dy=-10):
     return text((p[0]+dx, p[1]+dy), s, DARK, 24)
 def _ang(v, p): return math.atan2(p[1]-v[1], p[0]-v[0])

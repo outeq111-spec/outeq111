@@ -37,7 +37,7 @@ document.querySelectorAll('section').forEach(function(s,si){
  var tops=ps.map(function(p){return parseFloat(p.style.top);}),hs0=ps.map(function(p){return p.offsetHeight;});
  var gaps=[];for(var i=0;i<ps.length-1;i++)gaps.push(Math.max(30,tops[i+1]-(tops[i]+hs0[i])));
  var ans0=[].filter.call(s.querySelectorAll('p[data-build-in]'),function(p){return p.style.background;})[0];
- var lim=ans0?Math.max(parseFloat(ans0.style.top),940)-24:1040;
+ var lim=ans0?Math.max(parseFloat(ans0.style.top),975)-24:1040;
  var r,bot,cands=[4,2,0,-2];
  for(var c=0;c<cands.length;c++){
   var d=cands[c],y=tops[0];r=[];bot=0;function f(k){return parseInt(k)+d;}
@@ -47,7 +47,7 @@ document.querySelectorAll('section').forEach(function(s,si){
   if(bot<=lim)break;
  }
  var ans=[].filter.call(s.querySelectorAll('p[data-build-in]'),function(p){return p.style.background;})[0],at=null;
- if(ans){at=parseFloat(ans.style.top);if(bot+24>at)at=Math.min(bot+24,940);}
+ if(ans){at=parseFloat(ans.style.top);if(bot+24>at)at=Math.min(bot+24,975);}
  res.push([si,r,Math.round(bot),at]);
 });
 document.title='RES'+JSON.stringify(res);
