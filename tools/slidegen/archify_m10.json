@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "도전 문제 10 풀이 흐름 (교과서 206쪽)",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": ".archify/workflow-m10-flow-20261025-120000/m10-flow.html",
+    "legend": {
+      "entries": {
+        "external": { "label": "문제에서 주어진 것" },
+        "backend": { "label": "성질로 알아낸 것" },
+        "security": { "label": "답" }
+      }
+    }
+  },
+  "lanes": [
+    { "id": "given", "label": "주어진 것" },
+    { "id": "angle", "label": "알아낸 것 ①" },
+    { "id": "para", "label": "알아낸 것 ②" },
+    { "id": "ans1", "label": "(1)의 답" },
+    { "id": "ans2", "label": "(2)의 답" }
+  ],
+  "mainPath": ["gb", "n1", "p1", "r1", "ans"],
+  "nodes": [
+    { "id": "ga", "lane": "given", "col": 0, "type": "external", "icon": "flag", "label": "AE ⊥ BC" },
+    { "id": "gb", "lane": "given", "col": 1, "type": "external", "icon": "flag", "label": "BH는 원 O의 지름" },
+    { "id": "gc", "lane": "given", "col": 3, "type": "external", "icon": "flag", "label": "CF ⊥ AB" },
+    { "id": "gd", "lane": "given", "col": 4, "type": "external", "icon": "flag", "label": "OD ⊥ BC", "sublabel": "OD = √5 cm" },
+    { "id": "n1", "lane": "angle", "col": 1, "type": "backend", "icon": "decision", "label": "∠BCH = 90°" },
+    { "id": "n2", "lane": "angle", "col": 2, "type": "backend", "icon": "decision", "label": "∠BAH = 90°" },
+    { "id": "m", "lane": "angle", "col": 4, "type": "backend", "icon": "decision", "label": "O, D는 중점", "sublabel": "BH의 중점 · BC의 중점" },
+    { "id": "p1", "lane": "para", "col": 1, "type": "backend", "icon": "decision", "label": "AG ∥ CH" },
+    { "id": "p2", "lane": "para", "col": 3, "type": "backend", "icon": "decision", "label": "AH ∥ GC" },
+    { "id": "k", "lane": "para", "col": 4, "type": "backend", "icon": "decision", "label": "CH = 2OD", "sublabel": "= 2√5 cm" },
+    { "id": "r1", "lane": "ans1", "col": 2, "type": "security", "icon": "success", "label": "□AGCH는 평행사변형" },
+    { "id": "ans", "lane": "ans2", "col": 4, "type": "security", "icon": "success", "label": "AG = 2√5 cm", "sublabel": "AG = CH" }
+  ],
+  "edges": [
+    { "id": "gb-n1", "from": "gb", "to": "n1", "label": "반원에 대한 원주각", "variant": "emphasis" },
+    { "id": "gb-n2", "from": "gb", "to": "n2", "label": "반원에 대한 원주각", "variant": "emphasis" },
+    { "id": "ga-p1", "from": "ga", "to": "p1" },
+    { "id": "n1-p1", "from": "n1", "to": "p1", "label": "BC에 수직" },
+    { "id": "gc-p2", "from": "gc", "to": "p2" },
+    { "id": "n2-p2", "from": "n2", "to": "p2", "label": "AB에 수직" },
+    { "id": "p1-r1", "from": "p1", "to": "r1", "label": "두 쌍의 대변 평행", "variant": "emphasis" },
+    { "id": "p2-r1", "from": "p2", "to": "r1", "variant": "emphasis" },
+    { "id": "gd-m", "from": "gd", "to": "m", "label": "현의 수직이등분" },
+    { "id": "m-k", "from": "m", "to": "k", "label": "중점연결정리" },
+    { "id": "k-ans", "from": "k", "to": "ans" },
+    { "id": "r1-ans", "from": "r1", "to": "ans", "label": "평행사변형의 대변", "variant": "emphasis" }
+  ],
+  "cards": [
+    { "dot": "amber", "title": "문제", "items": ["원 O에 내접하는 △ABC, BH는 지름", "(1) □AGCH는 어떤 사각형인가?", "(2) AG의 길이는?"] }
+  ]
+}

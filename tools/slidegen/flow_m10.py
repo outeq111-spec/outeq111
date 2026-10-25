@@ -1,11 +1,11 @@
-"""중단원 마무리(204~206) 도전 문제 10: '풀이 흐름 정리' 순서도 슬라이드를 10 (2) 풀이 뒤에 넣는다.
+"""중단원 마무리(204~206) 도전 문제 10: '풀이 흐름 정리' 순서도 견본 파일(문제 + 순서도 2장)을 만든다.
 주어진 것(회색 점선) → 성질(화살표 위 이유) → 알아낸 것 → (1) → (2). 클릭마다 한 칸씩 나오고 왼쪽 그림에 같은 색으로 표시.
-사용: python3 tools/slidegen/flow_m10.py  (저장소 루트에서, 여러 번 돌려도 같은 결과)
-덱을 다시 만들면(deck5.py) 이 스크립트 → page_labels.py 순서로 다시 실행."""
+사용: python3 tools/slidegen/flow_m10.py  (저장소 루트에서). 수업 파일(204-206)은 건드리지 않고 그림·플레이어만 가져온다."""
 import re
 
 F = '204-206_원주각_중단원마무리_풀이.html'
-AFTER = '10 (2) 풀이'          # 이 제목의 슬라이드 뒤에 넣는다
+OUT = '견본_순서도_206쪽_도전문제10.html'
+PROB, AFTER = '도전 문제 10 · 서술형', '10 (2) 풀이'   # 문제 슬라이드, 그림을 가져올 풀이 슬라이드
 MARK = 'data-flow="m10"'
 R, BL, G, OR, PU = '#E4572E', '#1F6FB2', '#2E9E5B', '#D9822B', '#8E44AD'
 ACC = '#B5651D'
@@ -75,6 +75,7 @@ L = [
 
 def build(img):
     out = [f'<section {MARK} style="background:#EEF4F4; color:#1E2A3A; font-family:{FONT}; padding:96px; display:flex; flex-direction:column">',
+           '<p class="pgno" style="position:absolute; right:96px; top:40px; font-size:28px; font-weight:700; color:#4A5568; background:rgba(31,122,140,0.12); padding:4px 18px; border-radius:20px; white-space:nowrap">교과서 206쪽</p>',
            f'<p style="position:absolute; left:96px; top:44px; width:1300px; font-size:30px; font-weight:700; color:{ACC}">10 풀이 흐름 정리 · 주어진 것에서 답까지</p>',
            f'<img src="{img}" style="position:absolute; left:{FX}px; top:{FY}px; width:{FW}px; height:{FH:.1f}px; background:#FFFFFF; border-radius:14px">',
            # 범례
@@ -116,13 +117,14 @@ JS = ('<script id="flowjs">(function(){var s0=show;show=function(){s0();'
 
 if __name__ == '__main__':
     h = open(F, encoding='utf-8').read()
-    h = re.sub(r'<section ' + MARK + r'.*?</section>', '', h, flags=re.S)
-    h = re.sub(r'<style id="flowcss">.*?</style>', '', h); h = re.sub(r'<script id="flowjs">.*?</script>', '', h, flags=re.S)
-    secs = [m.start() for m in re.finditer(r'<section', h)] + [h.rfind('</div><button id="fs">')]
-    k = next(j for j in range(len(secs) - 1) if f'>{AFTER}</p>' in h[secs[j]:secs[j + 1]])
-    sec = h[secs[k]:secs[k + 1]]
-    img = re.search(r'<img src="(data:image/png;base64,[^"]+)"', sec).group(1)
-    h = h[:secs[k + 1]] + build(img) + h[secs[k + 1]:]
-    h = h.replace('</head>', CSS + '</head>', 1).replace('</body>', JS + '</body>', 1)
-    open(F, 'w', encoding='utf-8').write(h)
-    print('inserted as slide', k + 2, 'of', h.count('<section'))
+    secs = [m.start() for m in re.finditer(r'<section', h)]
+    end = h.rfind('</div><button id="fs">')
+    bounds = list(zip(secs, secs[1:] + [end]))
+    pick = lambda title: next(h[a:b] for a, b in bounds if f'>{title}</p>' in h[a:b])
+    prob, sol = pick(PROB), pick(AFTER)
+    img = re.search(r'<img src="(data:image/png;base64,[^"]+)"', sol).group(1)
+    doc = h[:secs[0]] + prob + build(img) + h[end:]
+    doc = re.sub(r'<title>[^<]*</title>', '<title>순서도 견본 · 도전 문제 10</title>', doc, count=1)
+    doc = doc.replace('</head>', CSS + '</head>', 1).replace('</body>', JS + '</body>', 1)
+    open(OUT, 'w', encoding='utf-8').write(doc)
+    print(OUT, doc.count('<section'), '장')
