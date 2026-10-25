@@ -40,7 +40,7 @@
   - `lib.B`를 새 교재 폴더로 바꿔서 쓴다 (`h{쪽}.png` 300dpi 페이지, `fg/{이름}.png` 잘린 그림).
 - `geo.py` + `refine.py`: 대략 읽은 점 좌표를 그림의 실제 잉크 선/원에 맞춘다. `SNAP(이름, 점dict, fig_dir=..., spec=(E('A-B B-C'), ((cx,cy), r) 또는 None, '원 위 점들'))`.
 - `shell.html`: 단계 넘김 플레이어. 포인터·확대·가독성 기능(`player_upgrade.py`)이 들어 있음: P 키/[포인터] 버튼으로 큰 빨간 화살표+노란 원 ↔ 레이저 점 ↔ 보통 마우스, 마우스 휠·Z 키로 확대(Esc 해제), 방금 나온 풀이 단계 노란 형광, 교과서 그림 대비↑. 플레이어를 고치면 `python3 player_upgrade.py`로 모든 덱에 다시 적용. `shots.sh 파일 장수 접두어`: 전 슬라이드 스크린샷 시트.
-- 필요 패키지: `pip install pillow numpy pymupdf` (PDF는 pymupdf로 렌더). Chromium: /opt/pw-browsers/chromium-1194/chrome-linux/chrome
+- 필요 패키지: `pip install pillow numpy pymupdf` (PDF는 pymupdf로 렌더). Chromium: /opt/pw-browsers/chromium (버전 폴더 이름은 환경마다 바뀜)
 
 - 탐구(점을 움직여 관찰) 활동은 `inscribed_explore.py`처럼 드래그 가능한 SVG 슬라이드로 구현 (클릭 전파 차단 필수).
   - 순서: 생각톡 교과서 슬라이드(설명 pill 없이) → 드래그 탐구 → 같은 교과서 슬라이드 + pill('생각톡 정리'). 원주각 1차시(`inscribed_explore.py`), 2차시(`arc_explore.py`, 시계 눈금에 맞춰 A·B·C·D·P 이동), 원주각의 활용 2차시(`tangent_explore.py`, B·C를 끌어 ∠BAT = ∠BCA, [그림 1~3] 버튼) 적용.
@@ -48,10 +48,11 @@
 - **증명·설명 슬라이드는 '처음 주어진 그림'에서 시작**한다 (선생님 요청). 교과서 그림에 보조선·각 표시·작도한 점이 이미 있으면 지우고(`proof_base.py` Eraser: keep_* / kill_seg·kill_sector·kill_box), 단계마다 지운 것을 색으로 다시 그려 마지막에 교과서 그림이 완성되게 한다. 적용: `proof_rework.py` (그림별 지우기는 `proof_specs.py`, 원본·결과 PNG는 assets/proofbase/). deck2.py·deck34.py를 다시 돌리면 그 뒤에 `python3 proof_rework.py`도 실행. 원주각 1차시(deck1) 증명 슬라이드는 아직 미적용.
 - 원주각의 활용 2차시는 HTML에 직접 패치함: `patch_chord_activity2.py`(술술이 이름, 활동 2 삼각형 설명), `patch_quadrev_ttukttak.py`(활동 1 뚝딱이 앞 사각형 복습). deck34.py를 다시 돌리면 두 패치도 다시 실행.
 - (3학년 수업이므로 2학년 교과서 175쪽 그림은 쪽수 대신 '중2 복습'으로 표시.) 각 슬라이드 오른쪽 위 '교과서 N쪽' 표시는 `page_labels.py`가 HTML에 직접 패치 (장 번호→쪽수 표가 파일 안에 있음). 덱을 다시 만들면 마지막에 `python3 tools/slidegen/page_labels.py` 실행, 슬라이드를 넣거나 빼면 표도 수정.
+- **풀이 흐름 순서도**: 주어진 것(회색 점선 칸) → 화살표 위 이유(성질 꼬리표) → 알아낸 것(색 칸) → (1)/(2) 답(주황 칸). 클릭마다 한 칸씩, 왼쪽 교과서 그림에 같은 색 표시, 방금 나온 칸 노란 테두리. 견본: 204-206 도전 문제 10 뒤 '10 풀이 흐름 정리'(27장, `flow_m10.py`가 HTML에 직접 삽입). deck5.py를 다시 돌리면 flow_m10.py → page_labels.py 순서로 실행.
 - 사각형 성질이 필요한 문제 앞에는 `quadrev()` 복습 슬라이드(여러 가지 사각형 사이의 관계, assets/quad.png)를 넣는다.
 
 - **가독성·수식 글꼴**: 변수 x, y(필요하면 r, R)는 수학 기울임체(`<i class="mv">`, Times 계열 italic)로 표시하고 점 이름(A, B, O)은 그대로 둔다. `python3 tools/slidegen/patch_readability.py 파일.html [변수글자]` (풀이 글자 40→44px 등 키우고 크롬으로 높이 재서 위치·정답 상자 재배치, `= + − ×` 앞뒤 줄바꿈 방지). 적용: 200-203(기본 xy), 204-206·207-209(`xyrR`). 덱을 다시 만들면 page_labels.py 뒤에 다시 실행.
-- **잘림 방지**: `lib.FIGSRC[이름] = (쪽, 그림 상자)`를 주면 풀이 그림을 가장자리 잉크가 끝나는 곳까지 넓혀 보여 준다(`lib.grow`, 오버레이 좌표는 그대로). 문제 상자도 `lib.grow(쪽, 상자, 'b')`로 아래 글자가 잘리지 않게. deck5.py에 적용(서술형 '풀이' 꼬리표는 TRIM으로 잘라 냄). 204-206은 '스스로 완성해 봅시다'를 2장으로 나눠 글자를 키움 → 28장.
+- **잘림 방지**: `lib.FIGSRC[이름] = (쪽, 그림 상자)`를 주면 풀이 그림을 가장자리 잉크가 끝나는 곳까지 넓혀 보여 준다(`lib.grow`, 오버레이 좌표는 그대로). 문제 상자도 `lib.grow(쪽, 상자, 'b')`로 아래 글자가 잘리지 않게. deck5.py에 적용(서술형 '풀이' 꼬리표는 TRIM으로 잘라 냄). 204-206은 '스스로 완성해 봅시다'를 2장으로 나눠 글자를 키움 → 28장 (+순서도 1장 = 29장).
 
 - **등호 정렬**: 계산이 등호로 이어지면 줄을 바꿔 등호 위치를 맞춘다(선생님 요청). 단계 글에서 `'식 = A\n= B\n= C'`처럼 다음 줄을 `= `로 시작하면 `lib.rich`가 등호 열을 맞춘 격자로 그린다. 각끼리만 같은 줄(∠A = ∠B = 62°)은 한 줄 유지. 근호 √10은 `lib.RAD`로 윗줄까지 그린다(글꼴 무관).
 - 대단원 05 풀이: '원에 외접하는 사각형은 대변의 길이의 합이 같다(교과서 185쪽 문제 4)' 언급. 원과 직선 교과서 내용 요약은 드라이브 `원의성질_자료정리_5_교과서_1원과직선.md`.

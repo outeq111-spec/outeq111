@@ -4,7 +4,7 @@
  덱을 다시 만들면 이 패치도 다시 실행 (한 번 적용한 파일에 다시 돌려도 안전: 이미 적용되면 건너뜀)."""
 import re, sys, json, subprocess, os, tempfile
 
-CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
+CHROME = '/opt/pw-browsers/chromium'
 BUMP = {40: 44, 36: 40, 32: 36}
 CSS = ('<style id="mvcss">i.mv{font-family:"Times New Roman","STIX Two Text","Noto Serif KR",serif;font-style:italic;'
        'font-weight:400;font-size:1.14em;padding:0 .05em;letter-spacing:0}b i.mv,.bold i.mv{font-weight:700}section p[data-build-in]{word-break:keep-all}</style>')
